@@ -5,10 +5,6 @@ let mobile = false;
 
 const config = {
 	constantScale: false,
-	size:          {
-		width:  1280,
-		height: 720
-	},
 	mobile,
 	debug:         true
 };
