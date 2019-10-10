@@ -1,4 +1,4 @@
-# Pathway
+# Pathway Helper
 
 ## Install
 
