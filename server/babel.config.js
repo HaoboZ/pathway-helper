@@ -8,6 +8,7 @@ module.exports = api => {
 			'@babel/preset-typescript'
 		],
 		'plugins': [
+			'react-hot-loader/babel',
 			[
 				'@babel/plugin-proposal-decorators',
 				{
@@ -18,8 +19,8 @@ module.exports = api => {
 			[
 				'import',
 				{
-					'libraryName': '@material-ui/core',
-					'libraryDirectory': '',
+					'libraryName':             '@material-ui/core',
+					'libraryDirectory':        '',
 					'camel2DashComponentName': false
 				},
 				'MUI_core'
@@ -27,8 +28,8 @@ module.exports = api => {
 			[
 				'import',
 				{
-					'libraryName': '@material-ui/icons',
-					'libraryDirectory': '',
+					'libraryName':             '@material-ui/icons',
+					'libraryDirectory':        '',
 					'camel2DashComponentName': false
 				},
 				'MUI_icons'
@@ -36,8 +37,8 @@ module.exports = api => {
 			[
 				'import',
 				{
-					'libraryName': '@material-ui/core/styles',
-					'libraryDirectory': '',
+					'libraryName':             '@material-ui/core/styles',
+					'libraryDirectory':        '',
 					'camel2DashComponentName': false
 				},
 				'MUI_core_styles'
