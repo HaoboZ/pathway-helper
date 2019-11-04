@@ -3,8 +3,8 @@ import { render } from 'react-dom';
 import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
-import Index from './index';
 
+import Index from './index';
 import store, { persistor } from './redux/store';
 
 
