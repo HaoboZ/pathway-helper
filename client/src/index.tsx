@@ -1,26 +1,57 @@
-import { Button } from '@material-ui/core';
+import { Container, CssBaseline, IconButton, Snackbar, SnackbarContent, Typography } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
+import { Close as CloseIcon } from '@material-ui/icons';
+import { Router } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import Courses from './pages/courses';
+import Details from './pages/details';
+import Login from './pages/login';
+import Upload from './pages/upload';
 import { StoreState } from './redux/store';
-import { setValue } from './store/actions';
+import { displayWarning } from './store/local/actions';
+import Theme from './theme';
+import Titlebar from './titlebar';
 
 
 export default function Index() {
 	const dispatch = useDispatch(),
-	      store    = useSelector( ( state: StoreState ) => state.main );
+	      store    = useSelector( ( store: StoreState ) => store.main );
 	
-	// React.useEffect( () => {
-	// 	dispatch( setValue( 'Hello World!' ) );
-	// }, [] );
+	const theme = useTheme();
 	
-	return <div>
-		<Button variant='contained' color='primary' onClick={() => {
-			dispatch( setValue( 'Changed State!' ) );
-		}}>
-			Click Me!
-		</Button>
-		<br/><br/>
-		{store.value}
-	</div>;
+	return <Theme>
+		<CssBaseline/>
+		<Titlebar/>
+		<Container>
+			<Router>
+				<Details path='/'/>
+				<Login path='login'/>
+				<Upload path='upload'/>
+				<Courses path='courses'/>
+			</Router>
+		</Container>
+		<Snackbar
+			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+			open={!!store.warning}
+			autoHideDuration={6000}
+			onClose={() => {
+				dispatch( displayWarning( '' ) );
+			}}>
+			<SnackbarContent
+				style={{
+					backgroundColor: theme.palette.error.dark
+				}}
+				message={<Typography color='textPrimary' style={{
+					display:    'flex',
+					alignItems: 'center'
+				}}>{store.warning}</Typography>}
+				action={<IconButton color='default' onClick={() => {
+					dispatch( displayWarning( '' ) );
+				}}>
+					<CloseIcon style={{ fontSize: 20 }}/>
+				</IconButton>}/>
+		</Snackbar>
+	</Theme>;
 }
