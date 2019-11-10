@@ -9,6 +9,19 @@ import * as webpack_hot_middleware from 'webpack-hot-middleware';
 import webpackConfig from '../webpack.config';
 import config from './config';
 
+var session = require('express-session');
+// initalize sequelize with session store
+var Sequelize = require('sequelize')
+var SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+// var sequelize = new Sequelize(
+// "database",
+// "username",
+// "password", {
+//     "dialect": "postgres",
+//     "storage": "./session.postgres"
+// });
+var sequelize = new Sequelize('postgres://pathwayhelper:pathwayhelper123@localhost:5432/pathwayhelperdb');
 
 declare const __basedir;
 
@@ -17,6 +30,18 @@ const app: express.Application = express();
 if ( config.debug ) app.use( logger( 'dev' ) );
 app.use( express.json() );
 app.use( cookieParser() );
+var sessionStore = new SequelizeStore({
+    db: sequelize
+})
+app.use(session({
+	secret: 'aosdnaoisdiodankasndgjirnms',
+	store: sessionStore,
+	resave: false, // we support the touch method so per the express-session docs this should be set to false
+	//proxy: true, // if you do SSL outside of node.
+	cookie: { secure: false } // we do not support ssl yet, but when we do this should be true
+
+}))
+sessionStore.sync();// for db initialization
 
 if ( config.debug ) {
 	const compiler = webpack( webpackConfig as any );
