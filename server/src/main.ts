@@ -5,6 +5,7 @@ import * as path from 'path';
 import * as webpack from 'webpack';
 import * as webpack_dev_middleware from 'webpack-dev-middleware';
 import * as webpack_hot_middleware from 'webpack-hot-middleware';
+// import RequestSession from './RequestSession';
 
 import webpackConfig from '../webpack.config';
 import config from './config';
@@ -56,6 +57,13 @@ app.use( '/assets', express.static( path.join( __basedir, 'assets' ) ) );
 app.use( '/node_modules', express.static( path.join( __basedir, 'node_modules' ) ) );
 
 app.get( '*', ( req, res ) => {
+	const index = path.join( __basedir, config.index );
+	res.sendFile( index );
+} );
+
+app.get( '/setSessionData', ( req, res ) => {
+    // let req1 = <RequestSession> req;
+	req.session.data = "123";
 	const index = path.join( __basedir, config.index );
 	res.sendFile( index );
 } );
