@@ -1,4 +1,4 @@
-import { DISPLAYWARNING,DISPLAYINFO, LOGIN, LOGOUT, TOGGLETHEME } from './actions';
+import { DISPLAYWARNING,DISPLAYINFO, LOGIN, LOGOUT, TOGGLETHEME,SETUSERDATA } from './actions';
 import {navigate} from "@reach/router";
 
 
@@ -7,13 +7,17 @@ export interface LocalState {
 	authenticated: boolean
 	warning: string
 	info: string
+	username: string
+	obtainedUserData: boolean
 }
 
 const initState: LocalState = {
 	theme:         'light',
 	authenticated: false,
 	warning:       '',
-	info:		   ''
+	info:		   '',
+	username: undefined,
+	obtainedUserData: false
 };
 
 export const LocalReducer = (
@@ -24,13 +28,16 @@ export const LocalReducer = (
 	case TOGGLETHEME:
 		return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
 	case LOGIN:
-		return { ...state, authenticated: action.authenticated, username:action.username };
+		return { ...state, authenticated: action.authenticated, username:action.username, obtainedUserData: false };
 	case LOGOUT:
-		return { ...state, authenticated: false, username:undefined };
+		// return { ...state, authenticated: false, username:undefined };
+		return initState;
 	case DISPLAYWARNING:
 		return { ...state, warning: action.text };
 	case DISPLAYINFO:
 		return { ...state, info: action.text };
+	case SETUSERDATA:
+		return { ...state, username: action.username, authenticated: action.username !== undefined, obtainedUserData: true};
 	}
 	return state;
 };

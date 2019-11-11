@@ -57,6 +57,7 @@ app.use(function (req, res, next) {
 
 
 	}
+
 	next()
 
 });
@@ -93,15 +94,15 @@ app.post('/loginHandler',( req, res ) => {
 
 
 } );
-app.get("/isLoggedIn",( req, res ) => {
+app.get("/getUserInfo",( req, res ) => {
 
-	let userid = req.session.username;
-	if(userid !== undefined){
-		res.send({"logged in?":"yes!"})
+	if(req.session.data !== undefined){
+		res.send({"username":req.session.username})
 	}
 	else{
-		res.send({"logged in?":"no."})
+		res.send({})
 	}
+
 
 } );
 

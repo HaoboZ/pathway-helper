@@ -60,6 +60,13 @@ export default function Titlebar() {
 				}}>
 				Course Helper
 			</Typography>
+			<Typography
+				variant='subtitle1'
+				style={{
+					flexGrow: 1
+				}}>
+				{store.authenticated ? store.username : ''}
+			</Typography>
 			<IconButton color='inherit' onClick={() => {
 				dispatch( toggleTheme() );
 			}}>

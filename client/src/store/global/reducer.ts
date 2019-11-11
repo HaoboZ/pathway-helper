@@ -6,7 +6,7 @@ export interface GlobalState {
 }
 
 const initState: GlobalState = {
-	transcript: null
+	transcript: null,
 };
 
 export const GlobalReducer = (
@@ -16,6 +16,8 @@ export const GlobalReducer = (
 	switch ( action.type ) {
 	case SETTRANSCRIPT:
 		return { ...state, transcript: action.transcript };
+
 	}
+
 	return state;
 };

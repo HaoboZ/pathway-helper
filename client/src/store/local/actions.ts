@@ -1,5 +1,18 @@
 import {navigate} from "@reach/router";
 
+
+
+export const SETUSERDATA = 'setUserData';
+
+export function setUserData( data ) {
+	return {
+		type: SETUSERDATA,
+		username:data.username
+	};
+}
+
+
+
 export const TOGGLETHEME = 'toggleTheme';
 
 export function toggleTheme() {
