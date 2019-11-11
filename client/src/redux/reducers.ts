@@ -1,15 +1,18 @@
 import { combineReducers } from 'redux';
 
-import { MainReducer, MainState } from '../store/reducer';
+import { GlobalReducer, GlobalState } from '../store/global/reducer';
+import { LocalReducer, LocalState } from '../store/local/reducer';
 
 
 const reducers = combineReducers(
 	{
-		main: MainReducer
+		main:    LocalReducer,
+		details: GlobalReducer
 	}
 );
 export default reducers;
 
 export interface state {
-	main: MainState
+	main: LocalState,
+	details: GlobalState
 }
