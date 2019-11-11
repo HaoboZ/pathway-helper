@@ -6,17 +6,17 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { StoreState } from './redux/store';
-import { logout, toggleTheme } from './store/local/actions';
+import {displayWarning, login, logout, toggleTheme} from './store/local/actions';
 
 
 export default function Titlebar() {
 	const dispatch = useDispatch(),
 	      store    = useSelector( ( store: StoreState ) => store.main );
-	
+
 	const theme = useTheme();
-	
+
 	const [ menuClick, setMenuClick ] = React.useState<null | HTMLElement>( null );
-	
+
 	return <AppBar position='static'>
 		<Toolbar>
 			<IconButton
@@ -66,8 +66,30 @@ export default function Titlebar() {
 				{store.theme === 'light' ? <MoonIcon/> : <SunIcon/>}
 			</IconButton>
 			<Button color='inherit' onClick={() => {
+				console.log("test");
 				if ( store.authenticated ) {
-					dispatch( logout() );
+
+					$.ajax({
+						type:"GET",
+						url:'/logout',
+
+						success: function(r){
+							console.log(r);
+							if(r.error){
+								//return { ...state, authenticated: true, warning:r.error };
+								dispatch(displayWarning(r.error));
+
+							}
+							else{
+								dispatch( logout() );
+								navigate('/login');
+								//return { ...state, authenticated: true, info:r.success };
+						}
+
+					}});
+
+
+
 				} else {
 					navigate( 'login' );
 				}

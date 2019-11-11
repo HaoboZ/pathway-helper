@@ -1,8 +1,0 @@
-<component name="libraryTable">
-  <library name="typings" type="javaScript">
-    <CLASSES>
-      <root url="file://$PROJECT_DIR$/src/client/typings" />
-    </CLASSES>
-    <SOURCES />
-  </library>
-</component>

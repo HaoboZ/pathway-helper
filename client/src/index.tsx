@@ -10,7 +10,7 @@ import Details from './pages/details';
 import Login from './pages/login';
 import Upload from './pages/upload';
 import { StoreState } from './redux/store';
-import { displayWarning } from './store/local/actions';
+import { displayWarning, displayInfo } from './store/local/actions';
 import Theme from './theme';
 import Titlebar from './titlebar';
 
@@ -18,9 +18,9 @@ import Titlebar from './titlebar';
 export default function Index() {
 	const dispatch = useDispatch(),
 	      store    = useSelector( ( store: StoreState ) => store.main );
-	
+
 	const theme = useTheme();
-	
+
 	return <Theme>
 		<CssBaseline/>
 		<Titlebar/>
@@ -52,6 +52,35 @@ export default function Index() {
 				}}>
 					<CloseIcon style={{ fontSize: 20 }}/>
 				</IconButton>}/>
+
+
+
 		</Snackbar>
+
+		<Snackbar
+			anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+			open={!!store.info}
+			autoHideDuration={6000}
+			onClose={() => {
+				dispatch( displayInfo( '' ) );
+			}}>
+			<SnackbarContent
+				style={{
+					backgroundColor: theme.palette.primary.dark
+				}}
+				message={<Typography color='textPrimary' style={{
+					display:    'flex',
+					alignItems: 'center'
+				}}>{store.info}</Typography>}
+				action={<IconButton color='default' onClick={() => {
+					dispatch( displayInfo( '' ) );
+				}}>
+					<CloseIcon style={{ fontSize: 20 }}/>
+				</IconButton>}/>
+
+
+
+		</Snackbar>
+
 	</Theme>;
 }

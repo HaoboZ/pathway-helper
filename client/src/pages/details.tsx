@@ -8,14 +8,15 @@ import { displayWarning } from '../store/local/actions';
 export default function Details( props: RouteComponentProps ) {
 	const dispatch = useDispatch(),
 	      store    = useSelector( ( store: StoreState ) => store.details );
-	
+
 	if ( !store.transcript ) {
+
 		navigate( 'upload' ).then( () => {
 			dispatch( displayWarning( 'Transcript needs to be uploaded first' ) );
 		} );
 		return null;
 	}
-	
+
 	return <div>
 		transcript details page
 	</div>;
