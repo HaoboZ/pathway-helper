@@ -27,8 +27,7 @@ export const LocalReducer = (
 	case LOGIN:
 		return { ...state, authenticated: action.authenticated, username: action.username, obtainedUserData: false };
 	case LOGOUT:
-		// return { ...state, authenticated: false, username:undefined };
-		return state;
+		return initState;
 	case DISPLAYWARNING:
 		return { ...state, warning: action.text };
 	case SETUSERDATA:
