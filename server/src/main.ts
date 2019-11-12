@@ -10,7 +10,7 @@ import * as webpack_hot_middleware from 'webpack-hot-middleware';
 
 import webpackConfig from '../webpack.config';
 import config from './config';
-import { sequelize, User } from './database';
+import { database, User } from './database';
 
 
 declare const __basedir;
@@ -24,7 +24,7 @@ app.use( cookieParser() );
 if ( config.sequel ) {
 	const SequelizeStore = connect_session_sequelize( session.Store );
 	const sessionStore = new SequelizeStore( {
-		db: sequelize
+		db: database
 	} );
 	app.use( session( {
 		secret: 'aosdnaoisdiodankasndgjirnms',

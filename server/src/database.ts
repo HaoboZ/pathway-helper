@@ -1,12 +1,10 @@
 import * as passwordHash from 'password-hash';
+import * as sequelize from 'sequelize';
 
 
-const { Sequelize, Model } = require('sequelize');
+export let database = new sequelize.Sequelize( 'postgres://pathwayhelper:pathwayhelper123@localhost:5432/pathwayhelperdb', { logging: false } );
 
-
-export let sequelize = new Sequelize( 'postgres://pathwayhelper:pathwayhelper123@localhost:5432/pathwayhelperdb', { logging: false } );
-
-export class User extends Model {
+export class User extends sequelize.Model {
 	
 	static newUser( username, passwordPlaintext, cb ) {//returns user if successful, otherwise returns undefined
 		this.findOrCreate( {
@@ -48,7 +46,7 @@ export class User extends Model {
 }
 
 User.init( {
-	username:       { type: Sequelize.STRING, unique: true },
-	password:       Sequelize.STRING,
-	transcriptData: Sequelize.JSONB//will break non postgres builds (this makes it fast to parse after read)
-}, { sequelize, modelName: 'pathwayuser', timestamps: true } );
+	username:       { type: sequelize.Sequelize.STRING, unique: true },
+	password:       sequelize.Sequelize.STRING,
+	transcriptData: sequelize.Sequelize.JSONB//will break non postgres builds (this makes it fast to parse after read)
+}, { sequelize: database, modelName: 'pathwayuser', timestamps: true } );

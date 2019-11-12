@@ -1,13 +1,12 @@
-const session = require('express-session');
+import * as connect_session_sequelize from 'connect-session-sequelize';
+import * as session from 'express-session';
+
+import { database, User } from './database';
 
 
-const {sequelize, User} = require('./database');
-let SequelizeStore = require('connect-session-sequelize')(session.Store);
-
-
-
-let sessionStore = new SequelizeStore({
-    db: sequelize
-});
+let SequelizeStore = connect_session_sequelize( session.Store );
+let sessionStore = new SequelizeStore( {
+	db: database
+} );
 User.sync();
 sessionStore.sync();// for db initialization
