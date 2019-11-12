@@ -5,7 +5,6 @@ import { Router } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import config from './config';
 import Courses from './pages/courses';
 import Details from './pages/details';
 import Login from './pages/login';
@@ -23,15 +22,14 @@ export default function Index() {
 	
 	const theme = useTheme();
 	
-	if ( config.sequel && !store.obtainedUserData ) {
+	if ( !store.obtainedUserData ) {
 		$.ajax( {
-			type:    'GET',
-			url:     '/getUserInfo',
-			success: function ( r ) {
+			type: 'GET',
+			url:  '/getUserInfo',
+			success( r ) {
 				console.log( r );
 				if ( r.error ) {
-					//return { ...state, authenticated: true, warning:r.error };
-					console.log( 'Error aquiring user info: ', r.error );
+					console.error( 'Error aquiring user info: ', r.error );
 				} else {
 					dispatch( setUserData( r ) );
 				}

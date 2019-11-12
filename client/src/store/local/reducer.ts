@@ -3,17 +3,17 @@ import { DISPLAYWARNING, LOGIN, LOGOUT, SETUSERDATA, TOGGLETHEME } from './actio
 
 export interface LocalState {
 	theme: string
-	authenticated: boolean
 	warning: string
 	username: string
+	authenticated: boolean
 	obtainedUserData: boolean
 }
 
 const initState: LocalState = {
 	theme:            'light',
-	authenticated:    false,
 	warning:          '',
 	username:         undefined,
+	authenticated:    false,
 	obtainedUserData: false
 };
 
@@ -25,7 +25,7 @@ export const LocalReducer = (
 	case TOGGLETHEME:
 		return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
 	case LOGIN:
-		return { ...state, authenticated: action.authenticated, username: action.username, obtainedUserData: false };
+		return { ...state, username: action.username, authenticated: action.authenticated, obtainedUserData: true };
 	case LOGOUT:
 		return initState;
 	case DISPLAYWARNING:

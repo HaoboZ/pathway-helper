@@ -1,4 +1,4 @@
-import { navigate, RouteComponentProps } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from '../redux/store';
@@ -9,12 +9,13 @@ export default function Details( props: RouteComponentProps ) {
 	const dispatch = useDispatch(),
 	      store    = useSelector( ( store: StoreState ) => store.details );
 	
-	if ( !store.transcript ) {
-		navigate( 'upload' ).then( () => {
-			dispatch( displayWarning( 'Transcript needs to be uploaded first' ) );
-		} );
-		return null;
-	}
+	React.useEffect( () => {
+		if ( !store.transcript ) {
+			props.navigate( 'upload' ).then( () => {
+				dispatch( displayWarning( 'Transcript needs to be uploaded first' ) );
+			} );
+		}
+	}, [ props.path ] );
 	
 	return <div>
 		transcript details page

@@ -6,7 +6,6 @@ let mobile = false;
 const config = {
 	constantScale: false,
 	mobile,
-	debug:         true,
-	sequel:        false
+	debug:         true
 };
 export default config;

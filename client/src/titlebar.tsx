@@ -21,9 +21,7 @@ export default function Titlebar() {
 		<Toolbar>
 			<IconButton
 				edge='start'
-				style={{
-					marginRight: theme.spacing( 2 )
-				}}
+				style={{ marginRight: theme.spacing( 2 ) }}
 				color='inherit'
 				onClick={( e ) => {
 					setMenuClick( e.currentTarget );
@@ -68,25 +66,22 @@ export default function Titlebar() {
 			}}>
 				{store.theme === 'light' ? <MoonIcon/> : <SunIcon/>}
 			</IconButton>
-			<div style={{ display: store.authenticated ? 'none' : 'inherit' }}>
+			{store.authenticated ? null :
 				<Button color='inherit' onClick={() => {
 					navigate( '/signUp' );
-				}}>Sign Up</Button></div>
+				}}>Sign Up</Button>
+			}
 			<Button color='inherit' onClick={() => {
 				if ( store.authenticated ) {
 					$.ajax( {
-						type:    'GET',
-						url:     '/logout',
-						success: function ( r ) {
-							console.log( r );
+						type: 'GET',
+						url:  '/logout',
+						success( r ) {
 							if ( r.error ) {
-								//return { ...state, authenticated: true, warning:r.error };
 								dispatch( displayWarning( r.error ) );
-								
 							} else {
 								dispatch( logout() );
 								navigate( '/login' );
-								//return { ...state, authenticated: true, info:r.success };
 							}
 						}
 					} );

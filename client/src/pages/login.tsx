@@ -1,5 +1,5 @@
 import { Button, TextField } from '@material-ui/core';
-import { navigate, RouteComponentProps } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,12 +18,13 @@ export default function Login( props: RouteComponentProps ) {
 	let usernameFieldRef = React.useRef( null );
 	let passwordFieldRef = React.useRef( null );
 	
-	if ( store.authenticated ) {
-		navigate( 'upload' ).then( () => {
-			dispatch( displayWarning( 'You are already logged in, you must log out first to switch accounts' ) );
-		} );
-		return null;
-	}
+	React.useEffect( () => {
+		if ( store.authenticated ) {
+			props.navigate( 'upload' ).then( () => {
+				dispatch( displayWarning( 'You are already logged in, you must log out first to create a new account.' ) );
+			} );
+		}
+	}, [ props.path ] );
 	
 	return <div style={{
 		display:       'flex',
@@ -60,15 +61,13 @@ export default function Login( props: RouteComponentProps ) {
 					dataType:    'json',
 					contentType: 'application/json',
 					data:        JSON.stringify( { 'username': username, 'password': password } ),
-					success:     function ( r ) {
+					success( r ) {
 						console.log( r );
 						if ( r.error ) {
-							//return { ...state, authenticated: true, warning:r.error };
 							dispatch( displayWarning( r.error ) );
 						} else {
 							dispatch( login( true, r.username ) );
-							navigate( '/upload' );
-							//return { ...state, authenticated: true, info:r.success };
+							props.navigate( 'upload' );
 						}
 					}
 				} );

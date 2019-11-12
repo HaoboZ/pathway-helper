@@ -5,9 +5,11 @@ import * as path from 'path';
 import * as webpack from 'webpack';
 import * as webpack_dev_middleware from 'webpack-dev-middleware';
 import * as webpack_hot_middleware from 'webpack-hot-middleware';
+
 import webpackConfig from '../webpack.config';
 import config from './config';
 import generateDatabaseHandlers from './requestHandlersDatabase';
+
 
 declare const __basedir;
 
@@ -21,12 +23,10 @@ app.use( express.static( path.join( __basedir, 'public' ) ) );
 app.use( '/assets', express.static( path.join( __basedir, 'assets' ) ) );
 app.use( '/node_modules', express.static( path.join( __basedir, 'node_modules' ) ) );
 
-
-if ( process.env.USES_DB == "true") {
-	console.log("Using DB");
+if ( process.env.USES_DB === 'true' ) {
+	console.log( 'Using DB' );
 	//load routes and middleware + db connections
-	generateDatabaseHandlers(app)
-
+	generateDatabaseHandlers( app );
 }
 
 if ( config.debug ) {
@@ -42,11 +42,12 @@ app.get( '*', ( req, res ) => {
 	res.sendFile( index );
 } );
 
-app.use(function(req,res,next){
-	if(process.env.USES_DB == "false"){
-		res.status(200).send({"error":"This route likely requires the use of a database."})
+app.use( ( req, res, next ) => {
+	if ( process.env.USES_DB === 'false' ) {
+		res.status( 200 ).send( { 'error': 'This route likely requires the use of a database.' } );
 	}
-});
+} );
+
 const port: any = process.env.PORT || config.port;
 app.listen( port, () => {
 	if ( config.debug ) console.log( `Listening on port ${port}` );
