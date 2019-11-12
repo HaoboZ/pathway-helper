@@ -42,7 +42,7 @@ sessionStore.sync();// for db initialization
 //expose and validate session data to req.session
 app.use(function (req, res, next) {
 	if(req.session.data != undefined){
-		console.log(req.session)
+		// console.log(req.session)
 		let data = JSON.parse(req.session.data);
 		req.session.username = data.username;
 		req.session.authorized = true;
@@ -69,7 +69,6 @@ app.use( '/assets', express.static( path.join( __basedir, 'assets' ) ) );
 app.use( '/node_modules', express.static( path.join( __basedir, 'node_modules' ) ) );
 
 function checkInput(str){
-	console.log(str)
 	return (str !== undefined && str !== null && str.length > 0 && str.length < 100 )
 }
 
