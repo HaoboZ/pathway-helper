@@ -15,7 +15,7 @@ export default function Courses( props: RouteComponentProps ) {
 		} );
 		return null;
 	}
-
+	
 	return <div>
 		courses page
 	</div>;

@@ -1,17 +1,11 @@
-import {navigate} from "@reach/router";
-
-
-
 export const SETUSERDATA = 'setUserData';
 
 export function setUserData( data ) {
 	return {
-		type: SETUSERDATA,
-		username:data.username
+		type:     SETUSERDATA,
+		username: data.username
 	};
 }
-
-
 
 export const TOGGLETHEME = 'toggleTheme';
 
@@ -23,31 +17,21 @@ export function toggleTheme() {
 
 export const LOGIN = 'login';
 
-export function login(authenticated, username=undefined) {
+export function login( authenticated, username = undefined ) {
 	return {
 		type: LOGIN,
 		authenticated,
 		username
-
+		
 	};
 }
 
 export const LOGOUT = 'logout';
 
 export function logout() {
-
+	
 	return {
 		type: LOGOUT
-	};
-}
-
-
-export const DISPLAYINFO = 'displayInfo';
-
-export function displayInfo( text: string ) {
-	return {
-		type: DISPLAYINFO,
-		text
 	};
 }
 
