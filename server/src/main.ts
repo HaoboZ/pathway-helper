@@ -13,9 +13,6 @@ import config from './config';
 import { sequelize, User } from './database';
 
 
-const SequelizeStore = connect_session_sequelize( session.Store );
-
-
 declare const __basedir;
 
 // set up server
@@ -24,37 +21,38 @@ if ( config.debug ) app.use( logger( 'dev' ) );
 app.use( express.json() );
 app.use( cookieParser() );
 
-let sessionStore = new SequelizeStore( {
-	db: sequelize
-} );
-app.use( session( {
-	secret: 'aosdnaoisdiodankasndgjirnms',
-	store:  sessionStore,
-	resave: false, // we support the touch method so per the express-session docs this should be set to false
-	//proxy: true, // if you do SSL outside of node.
-	
-	saveUninitialized: false,
-	cookie:            { secure: false } // we do not support ssl yet, but when we do this should be true
-	//expires: new Date(Date.now() + ( 86400 * 1000)),
-	
-} ) );
-sessionStore.sync();// for db initialization
-
-//expose and validate session data to req.session
-app.use( function ( req, res, next ) {
-	if ( req.session.data != undefined ) {
-		// console.log(req.session)
-		let data = JSON.parse( req.session.data );
-		req.session.username = data.username;
-		req.session.authorized = true;
+if ( config.sequel ) {
+	const SequelizeStore = connect_session_sequelize( session.Store );
+	const sessionStore = new SequelizeStore( {
+		db: sequelize
+	} );
+	app.use( session( {
+		secret: 'aosdnaoisdiodankasndgjirnms',
+		store:  sessionStore,
+		resave: false, // we support the touch method so per the express-session docs this should be set to false
+		//proxy: true, // if you do SSL outside of node.
 		
-	} else {
-		req.session.authorized = false;
-	}
+		saveUninitialized: false,
+		cookie:            { secure: false } // we do not support ssl yet, but when we do this should be true
+		//expires: new Date(Date.now() + ( 86400 * 1000)),
+		
+	} ) );
+	sessionStore.sync();// for db initialization
 	
-	next();
-	
-} );
+	//expose and validate session data to req.session
+	app.use( ( req, res, next ) => {
+		if ( req.session.data != undefined ) {
+			// console.log(req.session)
+			let data = JSON.parse( req.session.data );
+			req.session.username = data.username;
+			req.session.authorized = true;
+		} else {
+			req.session.authorized = false;
+		}
+		
+		next();
+	} );
+}
 
 if ( config.debug ) {
 	const compiler = webpack( webpackConfig as any );

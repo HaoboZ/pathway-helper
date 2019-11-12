@@ -19,7 +19,7 @@ export default function Login( props: RouteComponentProps ) {
 	let passwordFieldRef = React.useRef( null );
 	
 	if ( store.authenticated ) {
-		navigate( '/upload' ).then( () => {
+		navigate( 'upload' ).then( () => {
 			dispatch( displayWarning( 'You are already logged in, you must log out first to switch accounts' ) );
 		} );
 		return null;

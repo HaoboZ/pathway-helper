@@ -1,5 +1,7 @@
-import passwordHash from 'password-hash';
-import { Model, Sequelize } from 'sequelize';
+import * as passwordHash from 'password-hash';
+
+
+const { Sequelize, Model } = require('sequelize');
 
 
 export let sequelize = new Sequelize( 'postgres://pathwayhelper:pathwayhelper123@localhost:5432/pathwayhelperdb', { logging: false } );

@@ -5,6 +5,7 @@ import { Router } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import config from './config';
 import Courses from './pages/courses';
 import Details from './pages/details';
 import Login from './pages/login';
@@ -22,7 +23,7 @@ export default function Index() {
 	
 	const theme = useTheme();
 	
-	if ( !store.obtainedUserData ) {
+	if ( config.sequel && !store.obtainedUserData ) {
 		$.ajax( {
 			type:    'GET',
 			url:     '/getUserInfo',

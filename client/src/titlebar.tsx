@@ -73,13 +73,10 @@ export default function Titlebar() {
 					navigate( '/signUp' );
 				}}>Sign Up</Button></div>
 			<Button color='inherit' onClick={() => {
-				
 				if ( store.authenticated ) {
-					
 					$.ajax( {
-						type: 'GET',
-						url:  '/logout',
-						
+						type:    'GET',
+						url:     '/logout',
 						success: function ( r ) {
 							console.log( r );
 							if ( r.error ) {
@@ -91,13 +88,10 @@ export default function Titlebar() {
 								navigate( '/login' );
 								//return { ...state, authenticated: true, info:r.success };
 							}
-							
 						}
 					} );
-					
-					
 				} else {
-					navigate( '/login' );
+					navigate( 'login' );
 				}
 			}}>{store.authenticated ? 'Logout' : 'Login'}</Button>
 		</Toolbar>
