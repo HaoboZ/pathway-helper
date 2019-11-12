@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Courses from './pages/courses';
 import Details from './pages/details';
 import Login from './pages/login';
+import SignUp from './pages/signUp';
 import Upload from './pages/upload';
 import { StoreState } from './redux/store';
 import {displayWarning, displayInfo, setUserData} from './store/local/actions';
@@ -114,6 +115,7 @@ export default function Index() {
 			<Router>
 				<Details path='/'/>
 				<Login path='login'/>
+				<SignUp path='signUp'/>
 				<Upload path='upload'/>
 				<Courses path='courses'/>
 			</Router>

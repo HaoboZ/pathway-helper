@@ -30,23 +30,23 @@ export default function Login( props: RouteComponentProps ) {
 
 	let usernameFieldRef = React.useRef(null);
 	let passwordFieldRef = React.useRef(null);
-
+    let passwordConfirmFieldRef = React.useRef(null);
 
 	if ( store.authenticated ) {
 
 		navigate('/upload').then( () => {
-			dispatch(displayInfo('You are already logged in, you must log out first to switch accounts'))
+			dispatch(displayInfo('You are already logged in, you must log out first to create a new account.'))
 		} );
 		return null;
 	}
-
+	// const classes = useStyles({});
 	return (
 		<div
 			style={classes.container}
 		>
 		<TextField
 			required
-			id="outlined-required"
+			id="outlined-required-signUp"
 			label="Username"
 			style={classes.textField}
 			// className={classes.textField}
@@ -54,9 +54,9 @@ export default function Login( props: RouteComponentProps ) {
 			variant="outlined"
 			inputRef={usernameFieldRef}
         />
-		<TextField
+        <TextField
 			required
-			id="outlined-password-input"
+			id="outlined-password-input-signUp"
 			label="Password"
 			style={classes.textField}
 			// className={classes.textField}
@@ -67,13 +67,31 @@ export default function Login( props: RouteComponentProps ) {
 			variant="outlined"
 			inputRef={passwordFieldRef}
         />
+		<TextField
+			required
+			id="outlined-password-confirm-input-signUp"
+			label="Confirm Password"
+			style={classes.textField}
+			// className={classes.textField}
+
+			type="password"
+			autoComplete="current-password"
+			margin="normal"
+			variant="outlined"
+			inputRef={passwordConfirmFieldRef}
+        />
 		<Button variant="outlined" onClick={() => {
 			let username = usernameFieldRef.current.value;
 			let password = passwordFieldRef.current.value;
+			let passwordConfirm = passwordConfirmFieldRef.current.value;
+			if(password != passwordConfirm){
+			    dispatch(displayWarning("Passwords do not match!"));
+			    return;
+            }
 			if(checkInput(username) && checkInput(password)){
 				$.ajax({
 					type:"POST",
-					url:'/loginHandler',
+					url:'/signUpHandler',
 					dataType:"json",
 					contentType:"application/json",
 					data: JSON.stringify({"username":username,"password":password}),
@@ -98,6 +116,6 @@ export default function Login( props: RouteComponentProps ) {
 			}
 
 
-		}}>Login</Button>
+		}}>Sign Up</Button>
 	</div>);
 }

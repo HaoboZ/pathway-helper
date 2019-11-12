@@ -72,8 +72,14 @@ export default function Titlebar() {
 			}}>
 				{store.theme === 'light' ? <MoonIcon/> : <SunIcon/>}
 			</IconButton>
+			<div style={{display:store.authenticated ? 'none': 'inherit'}}>
+			<Button color='inherit'  onClick={() => {
+
+				navigate( '/signUp' );
+
+			}}>Sign Up</Button></div>
 			<Button color='inherit' onClick={() => {
-				console.log("test");
+
 				if ( store.authenticated ) {
 
 					$.ajax({
@@ -98,7 +104,7 @@ export default function Titlebar() {
 
 
 				} else {
-					navigate( 'login' );
+					navigate( '/login' );
 				}
 			}}>{store.authenticated ? 'Logout' : 'Login'}</Button>
 		</Toolbar>

@@ -11,18 +11,9 @@ import webpackConfig from '../webpack.config';
 import config from './config';
 
 let session = require('express-session');
-// initalize sequelize with session store
-let Sequelize = require('sequelize');
+const {sequelize, User} = require('./database');
 let SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-// var sequelize = new Sequelize(
-// "database",
-// "username",
-// "password", {
-//     "dialect": "postgres",
-//     "storage": "./session.postgres"
-// });
-let sequelize = new Sequelize('postgres://pathwayhelper:pathwayhelper123@localhost:5432/pathwayhelperdb',{logging: false});
 
 declare const __basedir;
 
@@ -54,8 +45,11 @@ app.use(function (req, res, next) {
 		console.log(req.session)
 		let data = JSON.parse(req.session.data);
 		req.session.username = data.username;
+		req.session.authorized = true;
 
-
+	}
+	else{
+		req.session.authorized = false;
 	}
 
 	next()
@@ -76,68 +70,91 @@ app.use( '/node_modules', express.static( path.join( __basedir, 'node_modules' )
 
 function checkInput(str){
 	console.log(str)
-	return (str !== undefined && str !== null && str.length > 0 )
+	return (str !== undefined && str !== null && str.length > 0 && str.length < 100 )
 }
 
-app.post('/loginHandler',( req, res ) => {
-	// console.log(req)
+app.post('/signUpHandler',( req, res ) => {
+	if(req.session.authorized){
+		res.send({"error":"You are still logged in, you must sign out first"});
+		return;
+	}
 	let username = req.body.username;
 	let password = req.body.password;
-	if(checkInput(username) && checkInput(password)){
-		req.session.data = JSON.stringify({"username":username});
-		res.send( {"success":"logged in"} );
 
+	if(checkInput(username) && checkInput(password)){//maybe move this check into newUser function
+		//password is hashed by the newUser function
+		User.newUser(username, password, function(user){
+			if(user){
+				req.session.data = JSON.stringify({"username":username});
+				res.send( {"success":"signed up and logged in","username":username} );
+			}
+			else{
+				res.send({"error":"That username already exists."})
+			}
+		})
 	}
 	else{
 		res.send( {"error":"bad input"} );
 	}
-
-
 } );
-app.get("/getUserInfo",( req, res ) => {
 
-	if(req.session.data !== undefined){
+app.post('/loginHandler',( req, res ) => {
+	if(req.session.authorized){
+		res.send({"error":"You are still logged in, you must sign out first"});
+		return;
+	}
+	let username = req.body.username;
+	let password = req.body.password;
+	if(checkInput(username) && checkInput(password)) {//maybe move this check into login function
+        User.login(username, password, function (user) {
+            if (user) {
+                req.session.data = JSON.stringify({"username": username});
+                res.send({"success": "logged in"});
+            }
+            else {
+                res.send({"error": "Incorrect username or password"})
+            }
+        })
+    }
+    else{
+    	res.send( {"error":"bad input"} );
+	}
+} );
+
+app.get("/getUserInfo",( req, res ) => {
+	if(req.session.authorized){
 		res.send({"username":req.session.username})
 	}
 	else{
 		res.send({})
 	}
 
-
 } );
 
 app.get("/logout",( req, res ) => {
-	if(req.session != undefined){
+	if(req.session.authorized){
 		req.session.destroy(function(err) {
 			if(err){
 				console.error(err)
 			}
-
     		res.clearCookie('connect.sid');
 			res.send({"success":"logged out"});
 
-
 		});
-
 	}
 	else{
 		res.send({"error":"You are not logged in"});
 	}
 
-
-
-
 } );
 
-app.get( '/setSessionData', ( req, res ) => {
-    // let req1 = <RequestSession> req;
-	req.session.data = "123";
-	const index = path.join( __basedir, config.index );
-	res.sendFile( index );
-} );
+// app.get( '/setSessionData', ( req, res ) => {
+//     // let req1 = <RequestSession> req;
+// 	const index = path.join( __basedir, config.index );
+// 	res.sendFile( index );
+// } );
 
 app.get( '*', ( req, res ) => {
-	console.log(req.session);
 	const index = path.join( __basedir, config.index );
 	res.sendFile( index );
 } );
