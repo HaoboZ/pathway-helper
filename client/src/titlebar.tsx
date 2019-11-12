@@ -36,7 +36,7 @@ export default function Titlebar() {
 					setMenuClick( null );
 				}}>
 				<MenuItem onClick={() => {
-					navigate( 'upload' ).then( () => {
+					navigate( '/upload' ).then( () => {
 						setMenuClick( null );
 					} );
 				}}>Upload New Transcript</MenuItem>
@@ -46,7 +46,7 @@ export default function Titlebar() {
 					} );
 				}}>Transcript Details</MenuItem>
 				<MenuItem onClick={() => {
-					navigate( 'courses' ).then( () => {
+					navigate( '/courses' ).then( () => {
 						setMenuClick( null );
 					} );
 				}}>Add Courses</MenuItem>
@@ -86,7 +86,7 @@ export default function Titlebar() {
 						}
 					} );
 				} else {
-					navigate( 'login' );
+					navigate( '/login' );
 				}
 			}}>{store.authenticated ? 'Logout' : 'Login'}</Button>
 		</Toolbar>

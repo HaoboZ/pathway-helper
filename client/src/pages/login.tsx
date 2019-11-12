@@ -20,7 +20,7 @@ export default function Login( props: RouteComponentProps ) {
 	
 	React.useEffect( () => {
 		if ( store.authenticated ) {
-			props.navigate( 'upload' ).then( () => {
+			props.navigate( '/upload' ).then( () => {
 				dispatch( displayWarning( 'You are already logged in, you must log out first to create a new account.' ) );
 			} );
 		}
@@ -67,7 +67,7 @@ export default function Login( props: RouteComponentProps ) {
 							dispatch( displayWarning( r.error ) );
 						} else {
 							dispatch( login( true, r.username ) );
-							props.navigate( 'upload' );
+							props.navigate( '/upload' );
 						}
 					}
 				} );

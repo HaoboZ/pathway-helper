@@ -11,7 +11,7 @@ export default function Details( props: RouteComponentProps ) {
 	
 	React.useEffect( () => {
 		if ( !store.transcript ) {
-			props.navigate( 'upload' ).then( () => {
+			props.navigate( '/upload' ).then( () => {
 				dispatch( displayWarning( 'Transcript needs to be uploaded first' ) );
 			} );
 		}
