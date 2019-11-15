@@ -8,7 +8,7 @@ import { StoreState } from './redux/store';
 
 export default function Theme( { children } ) {
 	const store = useSelector( ( state: StoreState ) => state.main );
-	
+
 	const muiTheme = createMuiTheme( {
 		palette: {
 			primary:   {
@@ -18,10 +18,17 @@ export default function Theme( { children } ) {
 				main: '#760d17'
 			},
 			type:      store.theme as any
-		}
+		},
+		overrides: {
+			MuiContainer: {
+				root: {
+					flexGrow:1
+				}
+			}
+  		}
 	} );
-	
-	return <ThemeProvider theme={muiTheme}>
+
+	return <ThemeProvider theme={muiTheme} >
 		{children}
 	</ThemeProvider>;
 }
