@@ -6,10 +6,11 @@ import * as webpack from 'webpack';
 import * as webpack_dev_middleware from 'webpack-dev-middleware';
 import * as webpack_hot_middleware from 'webpack-hot-middleware';
 
+
 import webpackConfig from '../webpack.config';
 import config from './config';
 import generateDatabaseHandlers from './requestHandlersDatabase';
-
+import generatePDFHandlers from './pdfParsingHandlers';
 
 declare const __basedir;
 
@@ -23,11 +24,7 @@ app.use( express.static( path.join( __basedir, 'public' ) ) );
 app.use( '/assets', express.static( path.join( __basedir, 'assets' ) ) );
 app.use( '/node_modules', express.static( path.join( __basedir, 'node_modules' ) ) );
 
-if ( process.env.USES_DB === 'true' ) {
-	console.log( 'Using DB' );
-	//load routes and middleware + db connections
-	generateDatabaseHandlers( app );
-}
+
 
 if ( config.debug ) {
 	const compiler = webpack( webpackConfig as any );
@@ -36,6 +33,18 @@ if ( config.debug ) {
 	} ) );
 	app.use( webpack_hot_middleware( compiler ) );
 }
+
+
+
+if ( process.env.USES_DB === 'true' ) {
+	console.log( 'Using DB' );
+	//load routes and middleware + db connections
+	generateDatabaseHandlers( app );
+}
+
+
+generatePDFHandlers( app );
+
 
 app.get( '*', ( req, res ) => {
 	const index = path.join( __basedir, config.index );

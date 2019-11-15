@@ -2,7 +2,5 @@
 	"name": "pathway-helper",
 	"version": "1.0.0",
 	"license": "MIT",
-	"dependencies": {
-		"pdf2json": "^1.1.8"
-	}
+	"dependencies": {}
 }
