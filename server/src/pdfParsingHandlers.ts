@@ -15,7 +15,7 @@ function render_page(pageData) {
     .then(function(textContent) {
         let lastY, text = '';
         for (let item of textContent.items) {
-            console.log(item.str)
+            // console.log(item.str)
             if (lastY == item.transform[5] || !lastY){
                 text += ' ' + item.str;
             }
@@ -51,9 +51,10 @@ export default function generatePDFHandlers(app){
         if(req.files.transcript != undefined && req.files.transcript.size < 405503 ){
 
             if(req.files.transcript.mimetype == 'application/pdf'){
-                console.log(req.files.transcript.tempFilePath)
+                // console.log(req.files.transcript.tempFilePath)
 
                 pdf(req.files.transcript.data,options).then(function(data) {
+                    console.log(data.text)
                     res.send({success:"parsed successfully",text:data.text});
                 }).catch((e)=>console.log(e))
             }

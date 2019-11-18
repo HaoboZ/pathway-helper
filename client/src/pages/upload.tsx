@@ -1,6 +1,8 @@
 import { RouteComponentProps } from '@reach/router';
-import {displayWarning, login} from "../store/local/actions";
+import {displayWarning, login, setTranscript} from "../store/local/actions";
 import {Button} from "@material-ui/core";
+import { navigate } from '@reach/router';
+
 import Transcript from '../transcriptParser/Transcript'
 import {useDropzone} from 'react-dropzone'
 import * as React from "react";
@@ -10,6 +12,7 @@ import { useDispatch } from 'react-redux';
 function handleUploadedText(text){
 	let transcript = new Transcript(text);
 	console.log(transcript)
+
 }
 
 
@@ -44,7 +47,10 @@ export default function Upload( props: RouteComponentProps ) {
 						}
 						else{
 							dispatch( displayWarning( "Done reading text from pdf!" ) );
-							handleUploadedText(r.text)
+							let transcript = new Transcript(r.text);
+							dispatch(setTranscript(transcript))
+							navigate('/');
+							//handleUploadedText(r.text)
 						}
 					},
 					error: function (e) {
@@ -83,7 +89,10 @@ export default function Upload( props: RouteComponentProps ) {
 				<h1>Copy in your transcript.</h1>
 				<textarea ref={transcriptTextUploadRef} style={{width: '80%', height: "60%", resize: 'none'}}/>
 				<Button variant='outlined' style={{width: "10%"}} onClick={() => {
-					handleUploadedText(transcriptTextUploadRef.current.value);
+					//handleUploadedText(transcriptTextUploadRef.current.value);
+					let transcript = new Transcript(transcriptTextUploadRef.current.value);
+					dispatch(setTranscript(transcript))
+					navigate('/');
 				}}>Upload</Button>
 			</div>
 			{uploadFunctionality ? (
