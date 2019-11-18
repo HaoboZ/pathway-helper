@@ -2,7 +2,16 @@ import { SETTRANSCRIPT } from './actions';
 
 
 export interface GlobalState {
-	transcript: any
+	transcript: {
+		name: string
+		major: string
+		courses: {
+			coursePrefix: string
+			courseNum: string
+			courseTitle: string
+			completed: boolean
+		}[]
+	}
 }
 
 const initState: GlobalState = {
