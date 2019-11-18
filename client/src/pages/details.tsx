@@ -11,7 +11,7 @@ import {
     Typography,
     Divider,
     ListItem,
-    List, ListItemText
+    List, ListItemText, ListSubheader
 } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { StoreState } from '../redux/store';
@@ -72,30 +72,26 @@ export default function Details( props: RouteComponentProps ) {
 
 		{/* Courses taken / required */}
 		<div style={{display:'flex',width:'90%',justifyContent:'space-around',height:'40%'}}>
-			<div style={{border:'1px solid rgba(0,0,0,.2)',padding:'1em', overflowY:'scroll',width:'40%',maxHeight:'40%'}}>
-				<List>
+			<div style={{border:'1px solid rgba(0,0,0,.2)',padding:'0em 1em 1em 1em', overflowY:'scroll',width:'40%',maxHeight:'40%'}}>
+				<List subheader={<ListSubheader style={{backgroundColor:'#fafafa'}}>Courses Taken</ListSubheader>}>
 					{store.transcript.courses.map((course,i) => {
 						const labelId = `course-${i}`;
 
 						return (
-							<ListItem key={i} role={undefined} dense button onClick={()=>{console.log()}} onClick={(e)=>{
-								console.log(e)
-							}}>
+							<ListItem key={i} role={undefined} dense button onClick={()=>{console.log()}}>
 								<ListItemText id={labelId} primary={course.courseTitle} />
 							</ListItem>
 						);
 					})}
 				</List>
 			</div>
-			<div style={{border:'1px solid rgba(0,0,0,.2)',padding:'1em',overflowY:'scroll',width:'40%',maxHeight:'40%'}}>
-				<List>
+			<div style={{border:'1px solid rgba(0,0,0,.2)',padding:'0em 1em 1em 1em',overflowY:'scroll',width:'40%',maxHeight:'40%'}}>
+				<List subheader={<ListSubheader style={{backgroundColor:'#fafafa'}}>Courses left to take</ListSubheader>}>
 					{store.transcript.courses.map((course,i) => {
 						const labelId = `course-${i}`;
 
 						return (
-							<ListItem key={i} role={undefined} dense button onClick={()=>{console.log()}} onClick={(e)=>{
-								console.log(e)
-							}}>
+							<ListItem key={i} role={undefined} dense button onClick={()=>{console.log()}}>
 								<ListItemText id={labelId} primary={course.courseTitle} />
 							</ListItem>
 						);
