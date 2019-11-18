@@ -2,7 +2,7 @@ import { SETTRANSCRIPT } from './actions';
 
 
 export interface GlobalState {
-	transcript: object
+	transcript: any
 }
 
 const initState: GlobalState = {

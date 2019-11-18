@@ -19,9 +19,9 @@ import Titlebar from './titlebar';
 export default function Index() {
 	const dispatch = useDispatch(),
 	      store    = useSelector( ( store: StoreState ) => store.main );
-
+	
 	const theme = useTheme();
-
+	
 	if ( !store.obtainedUserData ) {
 		$.ajax( {
 			type: 'GET',
@@ -37,12 +37,12 @@ export default function Index() {
 		} );
 		return null;
 	}
-
+	
 	return <Theme>
 		<CssBaseline/>
 		<Titlebar/>
-		<Container>
-			<Router style={{height:"100%"}}>
+		<Container style={{ overflowY: 'scroll' }}>
+			<Router style={{ height: '100%' }}>
 				<Details path='/'/>
 				<Login path='login'/>
 				<SignUp path='signUp'/>

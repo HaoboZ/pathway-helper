@@ -6,14 +6,6 @@ export function setUserData( data ) {
 		username: data.username
 	};
 }
-export const SETTRANSCRIPT = 'setTranscript';
-
-export function setTranscript( transcript ) {
-	return {
-		type: SETTRANSCRIPT,
-		transcript: transcript
-	};
-}
 
 export const TOGGLETHEME = 'toggleTheme';
 
@@ -30,14 +22,14 @@ export function login( authenticated, username = undefined ) {
 		type: LOGIN,
 		authenticated,
 		username
-
+		
 	};
 }
 
 export const LOGOUT = 'logout';
 
 export function logout() {
-
+	
 	return {
 		type: LOGOUT
 	};

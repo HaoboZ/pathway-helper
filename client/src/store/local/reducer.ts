@@ -1,4 +1,4 @@
-import { DISPLAYWARNING, LOGIN, LOGOUT, SETUSERDATA, TOGGLETHEME, SETTRANSCRIPT } from './actions';
+import { DISPLAYWARNING, LOGIN, LOGOUT, SETUSERDATA, TOGGLETHEME } from './actions';
 
 
 export interface LocalState {
@@ -7,7 +7,6 @@ export interface LocalState {
 	username: string
 	authenticated: boolean
 	obtainedUserData: boolean
-	transcript: any
 }
 
 const initState: LocalState = {
@@ -16,7 +15,6 @@ const initState: LocalState = {
 	username:         undefined,
 	authenticated:    false,
 	obtainedUserData: false,
-	transcript: undefined
 };
 
 export const LocalReducer = (
@@ -32,8 +30,6 @@ export const LocalReducer = (
 		return initState;
 	case DISPLAYWARNING:
 		return { ...state, warning: action.text };
-	case SETTRANSCRIPT:
-		return {...state, transcript: action.transcript};
 	case SETUSERDATA:
 		return {
 			...state,
