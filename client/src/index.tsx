@@ -11,7 +11,8 @@ import Details from './pages/details';
 import Login from './pages/login';
 import SignUp from './pages/signUp';
 import Upload from './pages/upload';
-import { persistor, StoreState } from './redux/store';
+import { RESET } from './redux/reducers';
+import { StoreState } from './redux/store';
 import { displayWarning, setUserData } from './store/local/actions';
 import Theme from './theme';
 import Titlebar from './titlebar';
@@ -25,7 +26,7 @@ export default function Index() {
 	
 	React.useEffect( () => {
 		if ( config.version !== store.version ) {
-			persistor.purge();
+			dispatch( { type: RESET } );
 		}
 	}, [] );
 	

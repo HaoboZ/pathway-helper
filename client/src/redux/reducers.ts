@@ -12,6 +12,8 @@ const reducers = combineReducers(
 );
 export default reducers;
 
+export const RESET = 'resetState';
+
 export interface state {
 	main: LocalState,
 	details: GlobalState

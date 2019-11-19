@@ -1,3 +1,4 @@
+import { RESET } from '../../redux/reducers';
 import { SETTRANSCRIPT } from './actions';
 
 
@@ -23,6 +24,8 @@ export const GlobalReducer = (
 	action: { type: string } & any
 ) => {
 	switch ( action.type ) {
+	case RESET:
+		return initState;
 	case SETTRANSCRIPT:
 		return { ...state, transcript: action.transcript };
 	}

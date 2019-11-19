@@ -1,4 +1,5 @@
 import config from '../../config';
+import { RESET } from '../../redux/reducers';
 import { DISPLAYWARNING, LOGIN, LOGOUT, SETUSERDATA, TOGGLETHEME } from './actions';
 
 
@@ -25,6 +26,8 @@ export const LocalReducer = (
 	action: { type: string } & any
 ) => {
 	switch ( action.type ) {
+	case RESET:
+		return initState;
 	case TOGGLETHEME:
 		return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
 	case LOGIN:
