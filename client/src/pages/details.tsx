@@ -5,11 +5,12 @@ import {
 	ListItem,
 	ListItemSecondaryAction,
 	ListItemText,
-	ListSubheader, TextField,
+	ListSubheader,
+	TextField,
 	Typography
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
-import { Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
+import { Add as AddIcon, Delete as DeleteIcon } from '@material-ui/icons';
 import { RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -33,16 +34,14 @@ export default function Details( props: RouteComponentProps ) {
 	      store    = useSelector( ( store: StoreState ) => store.details );
 	
 	React.useEffect( () => {
-		if ( store.transcript === undefined ) {
+		if ( !store.transcript ) {
 			props.navigate( '/upload' ).then( () => {
 				dispatch( displayWarning( 'Transcript needs to be uploaded first' ) );
 			} );
 		}
 	}, [ props.path ] );
 	
-	if ( store.transcript === undefined ) {
-		return null;
-	}
+	if ( !store.transcript ) return null;
 	
 	return <div style={{
 		display:       'flex',

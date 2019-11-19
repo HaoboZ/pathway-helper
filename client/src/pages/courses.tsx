@@ -18,6 +18,8 @@ export default function Courses( props: RouteComponentProps ) {
 		}
 	}, [ props.path ] );
 	
+	if ( !store.transcript ) return null;
+	
 	return <div>
 		courses page
 	</div>;

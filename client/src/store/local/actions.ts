@@ -22,7 +22,6 @@ export function login( authenticated, username = undefined ) {
 		type: LOGIN,
 		authenticated,
 		username
-		
 	};
 }
 

@@ -5,12 +5,13 @@ import { Router } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
+import config from './config';
 import Courses from './pages/courses';
 import Details from './pages/details';
 import Login from './pages/login';
 import SignUp from './pages/signUp';
 import Upload from './pages/upload';
-import { StoreState } from './redux/store';
+import { persistor, StoreState } from './redux/store';
 import { displayWarning, setUserData } from './store/local/actions';
 import Theme from './theme';
 import Titlebar from './titlebar';
@@ -21,6 +22,12 @@ export default function Index() {
 	      store    = useSelector( ( store: StoreState ) => store.main );
 	
 	const theme = useTheme();
+	
+	React.useEffect( () => {
+		if ( config.version !== store.version ) {
+			persistor.purge();
+		}
+	}, [] );
 	
 	if ( !store.obtainedUserData ) {
 		$.ajax( {

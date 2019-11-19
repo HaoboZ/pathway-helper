@@ -27,6 +27,8 @@ export default function Login( props: RouteComponentProps ) {
 		}
 	}, [ props.path ] );
 	
+	if ( store.authenticated ) return null;
+	
 	return <div style={{
 		display:       'flex',
 		flexDirection: 'column',

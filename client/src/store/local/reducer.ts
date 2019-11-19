@@ -1,8 +1,10 @@
+import config from '../../config';
 import { DISPLAYWARNING, LOGIN, LOGOUT, SETUSERDATA, TOGGLETHEME } from './actions';
 
 
 export interface LocalState {
 	theme: string
+	version: string
 	warning: string
 	username: string
 	authenticated: boolean
@@ -11,10 +13,11 @@ export interface LocalState {
 
 const initState: LocalState = {
 	theme:            'light',
+	version:          config.version,
 	warning:          '',
 	username:         undefined,
 	authenticated:    false,
-	obtainedUserData: false,
+	obtainedUserData: false
 };
 
 export const LocalReducer = (

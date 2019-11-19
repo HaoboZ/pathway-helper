@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core';
-import { navigate, RouteComponentProps } from '@reach/router';
+import { RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
@@ -41,7 +41,7 @@ export default function Upload( props: RouteComponentProps ) {
 							dispatch( displayWarning( 'Done reading text from pdf!' ) );
 							let transcript = new Transcript( r.text );
 							dispatch( setTranscript( transcript ) );
-							navigate( '/' );
+							props.navigate( '/' );
 						}
 					},
 					error( e ) {
@@ -77,7 +77,7 @@ export default function Upload( props: RouteComponentProps ) {
 			<Button variant='outlined' style={{ width: '10%' }} onClick={() => {
 				let transcript = new Transcript( transcriptTextUploadRef.current.value );
 				dispatch( setTranscript( transcript ) );
-				navigate( '/' );
+				props.navigate( '/' );
 			}}>Upload</Button>
 		</div>
 		<div style={{
