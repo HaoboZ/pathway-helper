@@ -13,7 +13,7 @@ import SignUp from './pages/signUp';
 import Upload from './pages/upload';
 import { RESET } from './redux/reducers';
 import { StoreState } from './redux/store';
-import { displayWarning, setUserData } from './store/local/actions';
+import { displayWarning } from './store/local/actions';
 import Theme from './theme';
 import Titlebar from './titlebar';
 
@@ -29,22 +29,6 @@ export default function Index() {
 			dispatch( { type: RESET } );
 		}
 	}, [] );
-	
-	if ( !store.obtainedUserData ) {
-		$.ajax( {
-			type: 'GET',
-			url:  '/getUserInfo',
-			success( r ) {
-				console.log( r );
-				if ( r.error ) {
-					console.error( 'Error aquiring user info: ', r.error );
-				} else {
-					dispatch( setUserData( r ) );
-				}
-			}
-		} );
-		return null;
-	}
 	
 	return <Theme>
 		<CssBaseline/>

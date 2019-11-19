@@ -16,22 +16,17 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { StoreState } from '../redux/store';
+import { createSchedule } from '../store/global/actions';
 import { displayWarning } from '../store/local/actions';
 
-
-function generate( element: React.ReactElement ) {
-	return [ 0, 1, 2 ].map( value =>
-		React.cloneElement( element, {
-			key: value
-		} )
-	);
-}
 
 export default function Details( props: RouteComponentProps ) {
 	const theme = useTheme();
 	
 	const dispatch = useDispatch(),
 	      store    = useSelector( ( store: StoreState ) => store.details );
+	
+	const addNewScheduleNameRef = React.useRef( null );
 	
 	React.useEffect( () => {
 		if ( !store.transcript ) {
@@ -113,8 +108,8 @@ export default function Details( props: RouteComponentProps ) {
 			width:           '80%'
 		}}>
 			<List dense={false}>
-				{generate( <ListItem>
-					<ListItemText primary='Single-line item'/>
+				{Object.keys( store.schedules ).map( ( name, index ) => <ListItem key={index}>
+					<ListItemText primary={name}/>
 					<ListItemSecondaryAction>
 						<IconButton edge='end'>
 							<DeleteIcon/>
@@ -122,10 +117,17 @@ export default function Details( props: RouteComponentProps ) {
 					</ListItemSecondaryAction>
 				</ListItem> )}
 				<ListItem>
-					<ListItemText><TextField fullWidth label='Add New Schedule'/></ListItemText>
+					<ListItemText>
+						<TextField fullWidth label='Add New Schedule' inputRef={addNewScheduleNameRef}/>
+					</ListItemText>
 					<ListItemSecondaryAction>
 						<IconButton edge='end' onClick={() => {
-						
+							const name = addNewScheduleNameRef.current.value;
+							if ( !name || name in store.schedules ) {
+								dispatch( displayWarning( 'Name is duplicate or empty' ) );
+							} else {
+								dispatch( createSchedule( name ) );
+							}
 						}}>
 							<AddIcon/>
 						</IconButton>

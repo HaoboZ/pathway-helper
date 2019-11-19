@@ -6,3 +6,12 @@ export function setTranscript( transcript ) {
 		transcript
 	};
 }
+
+export const CREATESCHEDULE = 'createSchedule';
+
+export function createSchedule( name: string ) {
+	return {
+		type: CREATESCHEDULE,
+		name
+	};
+}

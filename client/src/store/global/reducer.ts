@@ -1,5 +1,6 @@
 import { RESET } from '../../redux/reducers';
-import { SETTRANSCRIPT } from './actions';
+import { LOGOUT } from '../local/actions';
+import { CREATESCHEDULE, SETTRANSCRIPT } from './actions';
 
 
 export interface GlobalState {
@@ -12,11 +13,22 @@ export interface GlobalState {
 			courseTitle: string
 			completed: boolean
 		}[]
+	},
+	schedules: {
+		[ name: string ]: {
+			major: string
+			filter: string[]
+			term1: string[]
+			term2: string[]
+			term3: string[]
+			term4: string[]
+		}
 	}
 }
 
 const initState: GlobalState = {
-	transcript: null
+	transcript: null,
+	schedules:  {}
 };
 
 export const GlobalReducer = (
@@ -25,9 +37,25 @@ export const GlobalReducer = (
 ) => {
 	switch ( action.type ) {
 	case RESET:
+	case LOGOUT:
 		return initState;
 	case SETTRANSCRIPT:
 		return { ...state, transcript: action.transcript };
+	case CREATESCHEDULE:
+		if ( !action.name || action.name in state.schedules ) return state;
+		
+		const schedules = {
+			...state.schedules,
+			[ action.name ]: {
+				major:  state.transcript.major,
+				filter: [],
+				term1:  [],
+				term2:  [],
+				term3:  [],
+				term4:  []
+			}
+		};
+		return { ...state, schedules };
 	}
 	return state;
 };

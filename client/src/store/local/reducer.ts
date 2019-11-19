@@ -1,6 +1,6 @@
 import config from '../../config';
 import { RESET } from '../../redux/reducers';
-import { DISPLAYWARNING, LOGIN, LOGOUT, SETUSERDATA, TOGGLETHEME } from './actions';
+import { DISPLAYWARNING, LOGIN, LOGOUT, TOGGLETHEME } from './actions';
 
 
 export interface LocalState {
@@ -31,18 +31,21 @@ export const LocalReducer = (
 	case TOGGLETHEME:
 		return { ...state, theme: state.theme === 'light' ? 'dark' : 'light' };
 	case LOGIN:
-		return { ...state, username: action.username, authenticated: action.authenticated, obtainedUserData: true };
-	case LOGOUT:
-		return initState;
-	case DISPLAYWARNING:
-		return { ...state, warning: action.text };
-	case SETUSERDATA:
 		return {
 			...state,
 			username:         action.username,
-			authenticated:    action.username !== undefined,
+			authenticated:    action.authenticated,
 			obtainedUserData: true
 		};
+	case LOGOUT:
+		return {
+			...state,
+			username:         undefined,
+			authenticated:    false,
+			obtainedUserData: false
+		};
+	case DISPLAYWARNING:
+		return { ...state, warning: action.text };
 	}
 	return state;
 };

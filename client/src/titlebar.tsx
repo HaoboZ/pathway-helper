@@ -72,7 +72,7 @@ export default function Titlebar() {
 				}}>Sign Up</Button>
 			}
 			<Button color='inherit' onClick={() => {
-				if ( store.authenticated ) {
+				if ( store.authenticated && confirm( 'Are you sure you want to logout?' ) ) {
 					$.ajax( {
 						type: 'GET',
 						url:  '/logout',
