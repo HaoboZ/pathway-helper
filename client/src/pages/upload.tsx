@@ -1,4 +1,5 @@
 import { Button } from '@material-ui/core';
+import { useTheme } from '@material-ui/core/styles';
 import { RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import { useDropzone } from 'react-dropzone';
@@ -13,6 +14,8 @@ export default function Upload( props: RouteComponentProps ) {
 	let transcriptTextUploadRef = React.useRef( null );
 	
 	const dispatch = useDispatch();
+	
+	const theme = useTheme();
 	
 	const {
 		      getRootProps,
@@ -73,7 +76,12 @@ export default function Upload( props: RouteComponentProps ) {
 			textAlign:      'center'
 		}}>
 			<h1>Copy in your transcript.</h1>
-			<textarea ref={transcriptTextUploadRef} style={{ width: '80%', height: '60%', resize: 'none' }}/>
+			<textarea ref={transcriptTextUploadRef} style={{
+				width:           '80%',
+				height:          '60%',
+				resize:          'none',
+				backgroundColor: theme.palette.background.default
+			}}/>
 			<Button variant='outlined' style={{ width: '10%' }} onClick={() => {
 				let transcript = new Transcript( transcriptTextUploadRef.current.value );
 				dispatch( setTranscript( transcript ) );
@@ -126,8 +134,8 @@ export default function Upload( props: RouteComponentProps ) {
 						height:          '60%',
 						borderColor:     ( isDragActive ? '#2196f3' : '#bbbbbb' ),
 						borderStyle:     'dashed',
-						backgroundColor: '#fafafa',
-						color:           '#000',
+						backgroundColor: theme.palette.background.default,
+						color:           theme.palette.text.primary,
 						outline:         'none',
 						transition:      'border .24s ease-in-out'
 					}

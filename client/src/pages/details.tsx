@@ -5,8 +5,8 @@ import {
 	ListItem,
 	ListItemSecondaryAction,
 	ListItemText,
-	ListSubheader,
-	TextField,
+	ListSubheader, Paper,
+	TextField, Tooltip,
 	Typography
 } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
@@ -16,7 +16,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { StoreState } from '../redux/store';
-import { createSchedule } from '../store/global/actions';
+import { createSchedule, deleteSchedule } from '../store/global/actions';
 import { displayWarning } from '../store/local/actions';
 
 
@@ -27,6 +27,20 @@ export default function Details( props: RouteComponentProps ) {
 	      store    = useSelector( ( store: StoreState ) => store.details );
 	
 	const addNewScheduleNameRef = React.useRef( null );
+	
+	function courseSchedule( term ) {
+		return <div style={{
+			margin:     5,
+			flex:       1,
+			borderLeft: `1px solid ${theme.palette.divider}`,
+			textAlign:  'center'
+		}}>
+			{term.map( ( course, index ) =>
+				<Tooltip title={course.courseTitle}>
+					<div key={index}>{course.coursePrefix} {course.courseNum}</div>
+				</Tooltip> )}
+		</div>;
+	}
 	
 	React.useEffect( () => {
 		if ( !store.transcript ) {
@@ -85,37 +99,50 @@ export default function Details( props: RouteComponentProps ) {
 				<List subheader={<ListSubheader style={{ backgroundColor: theme.palette.background.default }}>
 					Courses Taken
 				</ListSubheader>}>
-					{store.transcript.courses.map( ( course, i ) => {
-						const labelId = `course-${i}`;
-						
-						return (
-							<ListItem key={i} role={undefined} dense button onClick={() => {
-								console.log();
-							}}>
-								<ListItemText id={labelId} primary={course.courseTitle}/>
-							</ListItem>
-						);
+					{store.transcript.courses.map( ( course, index ) => {
+						return <ListItem key={index} dense>
+							<ListItemText>{course.coursePrefix} {course.courseNum}: {course.courseTitle}</ListItemText>
+						</ListItem>;
 					} )}
 				</List>
 			</div>
 		</div>
 		
 		{/* Create a schedule */}
-		
-		
-		<div style={{
-			backgroundColor: theme.palette.background.paper,
-			width:           '80%'
+		<Paper style={{
+			width:  '80%',
+			margin: 30
 		}}>
-			<List dense={false}>
-				{Object.keys( store.schedules ).map( ( name, index ) => <ListItem key={index}>
-					<ListItemText primary={name}/>
-					<ListItemSecondaryAction>
-						<IconButton edge='end'>
-							<DeleteIcon/>
-						</IconButton>
-					</ListItemSecondaryAction>
-				</ListItem> )}
+			<List>
+				{Object.keys( store.schedules ).map( ( name, index ) => <>
+					<ListItem key={index}>
+						<ListItemText>
+							<div style={{ display: 'flex' }}>
+								<div style={{
+									margin:         5,
+									flex:           1,
+									display:        'flex',
+									alignItems:     'center',
+									justifyContent: 'center'
+								}}>{name}</div>
+								{courseSchedule( store.schedules[ name ].term1 )}
+								{courseSchedule( store.schedules[ name ].term2 )}
+								{courseSchedule( store.schedules[ name ].term3 )}
+								{courseSchedule( store.schedules[ name ].term4 )}
+							</div>
+						</ListItemText>
+						<ListItemSecondaryAction>
+							<IconButton edge='end' onClick={() => {
+								if ( confirm( `Are you should you want to delete schedule ${name}?` ) ) {
+									dispatch( deleteSchedule( name ) );
+								}
+							}}>
+								<DeleteIcon/>
+							</IconButton>
+						</ListItemSecondaryAction>
+					</ListItem>
+					<Divider/>
+				</> )}
 				<ListItem>
 					<ListItemText>
 						<TextField fullWidth label='Add New Schedule' inputRef={addNewScheduleNameRef}/>
@@ -127,6 +154,7 @@ export default function Details( props: RouteComponentProps ) {
 								dispatch( displayWarning( 'Name is duplicate or empty' ) );
 							} else {
 								dispatch( createSchedule( name ) );
+								props.navigate( `courses/${name}` );
 							}
 						}}>
 							<AddIcon/>
@@ -134,6 +162,6 @@ export default function Details( props: RouteComponentProps ) {
 					</ListItemSecondaryAction>
 				</ListItem>
 			</List>
-		</div>
+		</Paper>
 	</div>;
 }

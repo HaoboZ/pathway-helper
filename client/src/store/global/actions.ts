@@ -15,3 +15,12 @@ export function createSchedule( name: string ) {
 		name
 	};
 }
+
+export const DELETESCHEDULE = 'deleteSchedule';
+
+export function deleteSchedule( name: string ) {
+	return {
+		type: DELETESCHEDULE,
+		name
+	};
+}

@@ -20,6 +20,8 @@ export default function Courses( props: RouteComponentProps ) {
 	
 	if ( !store.transcript ) return null;
 	
+	console.log( props[ '*' ], store.schedules );
+	
 	return <div>
 		courses page
 	</div>;

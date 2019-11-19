@@ -1,6 +1,6 @@
 import { RESET } from '../../redux/reducers';
 import { LOGOUT } from '../local/actions';
-import { CREATESCHEDULE, SETTRANSCRIPT } from './actions';
+import { CREATESCHEDULE, DELETESCHEDULE, SETTRANSCRIPT } from './actions';
 
 
 export interface GlobalState {
@@ -18,10 +18,26 @@ export interface GlobalState {
 		[ name: string ]: {
 			major: string
 			filter: string[]
-			term1: string[]
-			term2: string[]
-			term3: string[]
-			term4: string[]
+			term1: {
+				coursePrefix: string
+				courseNum: string
+				courseTitle: string
+			}[]
+			term2: {
+				coursePrefix: string
+				courseNum: string
+				courseTitle: string
+			}[]
+			term3: {
+				coursePrefix: string
+				courseNum: string
+				courseTitle: string
+			}[]
+			term4: {
+				coursePrefix: string
+				courseNum: string
+				courseTitle: string
+			}[]
 		}
 	}
 }
@@ -41,7 +57,7 @@ export const GlobalReducer = (
 		return initState;
 	case SETTRANSCRIPT:
 		return { ...state, transcript: action.transcript };
-	case CREATESCHEDULE:
+	case CREATESCHEDULE: {
 		if ( !action.name || action.name in state.schedules ) return state;
 		
 		const schedules = {
@@ -56,6 +72,12 @@ export const GlobalReducer = (
 			}
 		};
 		return { ...state, schedules };
+	}
+	case DELETESCHEDULE: {
+		const schedules = { ...state.schedules };
+		delete schedules[ action.name ];
+		return { ...state, schedules };
+	}
 	}
 	return state;
 };

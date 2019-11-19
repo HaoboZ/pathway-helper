@@ -39,7 +39,7 @@ export default function Index() {
 				<Login path='login'/>
 				<SignUp path='signUp'/>
 				<Upload path='upload'/>
-				<Courses path='courses'/>
+				<Courses path='courses/*'/>
 			</Router>
 		</Container>
 		<Snackbar
@@ -51,7 +51,8 @@ export default function Index() {
 			}}>
 			<SnackbarContent
 				style={{
-					backgroundColor: theme.palette.error.dark
+					backgroundColor: theme.palette.secondary.dark,
+					color:           theme.palette.common.white
 				}}
 				message={<Typography color='textPrimary' style={{
 					display:    'flex',
