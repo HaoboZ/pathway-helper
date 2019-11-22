@@ -2,8 +2,9 @@ import { RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { StoreState } from '../redux/store';
-import { displayWarning } from '../store/local/actions';
+import { StoreState } from '../../redux/store';
+import { displayWarning } from '../../store/local/actions';
+import Filters from './filters';
 
 
 export default function Courses( props: RouteComponentProps ) {
@@ -20,9 +21,11 @@ export default function Courses( props: RouteComponentProps ) {
 	
 	if ( !store.transcript ) return null;
 	
-	console.log( props[ '*' ], store.schedules );
+	const scheduleName = props[ '*' ];
+	if ( !( scheduleName in store.schedules ) ) return <div>Something went wrong!</div>;
+	const schedule = store.schedules[ props[ '*' ] ];
 	
 	return <div>
-		courses page
+		<Filters scheduleName={scheduleName} schedule={schedule}/>
 	</div>;
 }

@@ -1,6 +1,6 @@
 import { RESET } from '../../redux/reducers';
 import { LOGOUT } from '../local/actions';
-import { CREATESCHEDULE, DELETESCHEDULE, SETTRANSCRIPT } from './actions';
+import { ADDFILTER, CREATESCHEDULE, DELETESCHEDULE, REMOVEFILTER, SETTRANSCRIPT } from './actions';
 
 
 export interface GlobalState {
@@ -76,6 +76,18 @@ export const GlobalReducer = (
 	case DELETESCHEDULE: {
 		const schedules = { ...state.schedules };
 		delete schedules[ action.name ];
+		return { ...state, schedules };
+	}
+	case ADDFILTER: {
+		const schedules = { ...state.schedules };
+		schedules[ action.schedule ].filter = schedules[ action.schedule ].filter
+			.concat( action.name );
+		return { ...state, schedules };
+	}
+	case REMOVEFILTER: {
+		const schedules = { ...state.schedules };
+		schedules[ action.schedule ].filter = schedules[ action.schedule ].filter
+			.filter( ( name ) => name !== action.name );
 		return { ...state, schedules };
 	}
 	}

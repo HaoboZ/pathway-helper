@@ -24,3 +24,23 @@ export function deleteSchedule( name: string ) {
 		name
 	};
 }
+
+export const ADDFILTER = 'addFilter';
+
+export function addFilter( schedule, name ) {
+	return {
+		type: ADDFILTER,
+		schedule,
+		name
+	};
+}
+
+export const REMOVEFILTER = 'removeFilter';
+
+export function removeFilter( schedule, name ) {
+	return {
+		type: REMOVEFILTER,
+		schedule,
+		name
+	};
+}
