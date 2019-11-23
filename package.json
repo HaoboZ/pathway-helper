@@ -2,5 +2,7 @@
 	"name": "pathway-helper",
 	"version": "1.0.0",
 	"license": "MIT",
-	"dependencies": {}
+	"dependencies": {
+		"form-data": "^3.0.0"
+	}
 }

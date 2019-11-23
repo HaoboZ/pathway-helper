@@ -5,7 +5,8 @@
 		"start": "ts-node app.ts",
 		"build": "webpack",
 		"databaseSync": "ts-node src/databaseSync.ts",
-		"pdftest": "ts-node pdftester.ts"
+		"pdftest": "ts-node pdftester.ts",
+		"syncClasses": "ts-node src/syncClasses.ts"
 	},
 	"dependencies": {
 		"connect-session-sequelize": "^6.0.0",
