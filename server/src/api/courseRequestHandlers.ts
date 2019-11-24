@@ -1,12 +1,13 @@
-export let terms = [{term:4040,desc:'Spring 2019'},{term:4060,desc:'Summer 2019'},{term:4100,desc:'Fall 2019'},{term:4120,desc:'Winter 2020'},]
-// export let terms = [{term:4120,desc:'Winter 2020'}]
-import {Course} from './courses'
+//hardcoded terms (this should probably be set dynamically)
+export let terms = [{term:4040,desc:'Spring 2019'},{term:4060,desc:'Summer 2019'},{term:4100,desc:'Fall 2019'},{term:4120,desc:'Winter 2020'},];
+
+import {Course} from '../models/Course'
 
 export default function generateCourseRequestHandlers( app ) {
-	app.get('/classes', (req,res) => {//must specify term
+	app.get('/classes', (req,res) => {//must specify term in get query parameter
 	    if(req.query.term !== undefined){
 	        Course.findAll({where:{term:req.query.term},raw: true}).then((results)=>{
-	            console.log(results)
+	            console.log(results);
 	            res.send({results})
             })
         }

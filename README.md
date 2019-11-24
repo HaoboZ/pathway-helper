@@ -16,7 +16,6 @@
 0. configure hardcoded password in main.ts Sequelize call (this will be fixed later)
 0. Ensure the user has correct access rights to the db
 0. You will need to run the databaseSync configuration 'databaseSync.ts' 
-
 <p>Note. If ENFILE: file table overflow happens on Mac </br> </p>
 [refer to this stack overflow post](https://stackoverflow.com/questions/45004352/error-enfile-file-table-overflow-scandir-while-run-reaction-on-mac)
 

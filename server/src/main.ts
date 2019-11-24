@@ -8,10 +8,9 @@ import * as webpack_hot_middleware from 'webpack-hot-middleware';
 
 import webpackConfig from '../webpack.config';
 import config from './config';
-import generateDatabaseHandlers from './requestHandlersDatabase';
-import generatePDFHandlers from './pdfParsingHandlers';
-import generateCourseRequestHandlers from "./courseRequestHandlers";
-
+import generateDatabaseHandlers from './api/userRequestHandlers';
+import generatePDFHandlers from './api/pdfParsingRequestHandlers';
+import generateCourseRequestHandlers from "./api/courseRequestHandlers";
 
 declare const __basedir;
 
@@ -37,11 +36,15 @@ if ( process.env.USES_DB === 'true' ) {
 	console.log( 'Using DB' );
 	//load routes and middleware + db connections
 	generateDatabaseHandlers( app );
+	generateCourseRequestHandlers(app);
+
+}
+else{
+	console.warn("No database setup, some functionality is disabled");
 }
 
 generatePDFHandlers( app );
 
-generateCourseRequestHandlers(app);
 
 
 app.get( '*', ( req, res ) => {
