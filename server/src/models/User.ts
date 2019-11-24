@@ -1,11 +1,14 @@
-import * as sequelize from "sequelize";
-import * as passwordHash from "password-hash";
-import {database} from "../database";
+import * as passwordHash from 'password-hash';
+import * as sequelize from 'sequelize';
+
+import { database } from '../database';
+
 
 export class User extends sequelize.Model {
-    username
-    transcriptData
-    password
+	username;
+	transcriptData;
+	password;
+	
 	static newUser( username, passwordPlaintext, cb ) {//returns user if successful, otherwise returns undefined
 		this.findOrCreate( {
 			where:    { username: username },
@@ -18,20 +21,21 @@ export class User extends sequelize.Model {
 				} else {//username already existed
 					cb( undefined );
 				}
-
+				
 			} );
-
+		
 	}
-    static updateData(username, data, cb){
-	    if( typeof data == 'object') {//check if json
-	        User.update({transcriptData:data},{where:{username}}).then((res)=>{
-	            cb(res,undefined);
-            })
-        }
-        else{
-            cb(undefined, 'Data is not a valid json object')
-        }
-    }
+	
+	static updateData( username, data, cb ) {
+		if ( typeof data == 'object' ) {//check if json
+			User.update( { transcriptData: data }, { where: { username } } ).then( ( res ) => {
+				cb( res, undefined );
+			} );
+		} else {
+			cb( undefined, 'Data is not a valid json object' );
+		}
+	}
+	
 	//pre: usernames are unique
 	static login( username, passwordPlaintext, cb ) {//returns user if successful, otherwise returns undefined
 		this.findOne( { where: { username: username } } )
@@ -47,7 +51,7 @@ export class User extends sequelize.Model {
 				}
 			} );
 	}
-
+	
 	validatePassword( providedPassword ) {
 		// @ts-ignore
 		return passwordHash.verify( providedPassword, this.password );

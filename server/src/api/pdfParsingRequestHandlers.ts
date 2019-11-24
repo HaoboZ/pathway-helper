@@ -1,5 +1,6 @@
 import * as fileUpload from 'express-fileupload';
 import * as pdf from 'pdf-parse';
+
 //configuration of the pdf parser
 let options = {
 	pagerender( pageData ) {
@@ -9,7 +10,7 @@ let options = {
 			//do not attempt to combine same line TextItem's.
 			disableCombineTextItems: true
 		};
-
+		
 		return pageData.getTextContent( render_options )
 			.then( function ( textContent ) {
 				let lastY, text = '';
@@ -33,7 +34,7 @@ export default function generatePDFHandlers( app ) {
 		useTempFiles: false,
 		debug:        true
 	} ) );
-
+	
 	app.post( '/parsePDFText', ( req, res ) => {
 		if ( req.files.transcript === undefined ) {
 			res.send( { error: 'No file uploaded' } );
@@ -41,7 +42,7 @@ export default function generatePDFHandlers( app ) {
 		if ( req.files.transcript != undefined && req.files.transcript.size < 405503 ) {
 			if ( req.files.transcript.mimetype == 'application/pdf' ) {
 				console.log( req.files.transcript.tempFilePath );
-
+				
 				pdf( req.files.transcript.data, options ).then( function ( data ) {
 					res.send( { success: 'parsed successfully', text: data.text } );
 				} ).catch( ( e ) => console.log( e ) );
