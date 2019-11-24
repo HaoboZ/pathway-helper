@@ -10,6 +10,7 @@ import webpackConfig from '../webpack.config';
 import config from './config';
 import generateDatabaseHandlers from './requestHandlersDatabase';
 import generatePDFHandlers from './pdfParsingHandlers';
+import generateCourseRequestHandlers from "./courseRequestHandlers";
 
 
 declare const __basedir;
@@ -39,6 +40,9 @@ if ( process.env.USES_DB === 'true' ) {
 }
 
 generatePDFHandlers( app );
+
+generateCourseRequestHandlers(app);
+
 
 app.get( '*', ( req, res ) => {
 	const index = path.join( __basedir, config.index );
