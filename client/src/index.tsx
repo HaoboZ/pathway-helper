@@ -28,6 +28,7 @@ export default function Index() {
 		if ( config.version !== store.version ) {
 			dispatch( { type: RESET } );
 		}
+		// TODO: if logged in, load in new state
 	}, [] );
 	
 	return <Theme>

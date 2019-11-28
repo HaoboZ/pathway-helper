@@ -16,7 +16,7 @@ import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { StoreState } from '../../redux/store';
-import { createSchedule, deleteSchedule } from '../../store/global/actions';
+import { createSchedule, deleteSchedule } from '../../store/global/transcriptActions';
 import { displayWarning } from '../../store/local/actions';
 
 
@@ -27,20 +27,6 @@ export default function ScheduleList() {
 	      store    = useSelector( ( store: StoreState ) => store.details );
 	
 	const addNewScheduleNameRef = React.useRef( null );
-	
-	function courseSchedule( term ) {
-		return <div style={{
-			margin:     5,
-			flex:       1,
-			borderLeft: `1px solid ${theme.palette.divider}`,
-			textAlign:  'center'
-		}}>
-			{term.map( ( course, index ) =>
-				<Tooltip title={course.courseTitle}>
-					<div key={index}>{course.coursePrefix} {course.courseNum}</div>
-				</Tooltip> )}
-		</div>;
-	}
 	
 	return <Paper style={{
 		width:  '100%',
@@ -60,10 +46,17 @@ export default function ScheduleList() {
 								alignItems:     'center',
 								justifyContent: 'center'
 							}}>{name}</div>
-							{courseSchedule( store.schedules[ name ].term1 )}
-							{courseSchedule( store.schedules[ name ].term2 )}
-							{courseSchedule( store.schedules[ name ].term3 )}
-							{courseSchedule( store.schedules[ name ].term4 )}
+							{store.schedules[ name ].terms.map( ( term, i ) => <div key={i} style={{
+								margin:     5,
+								flex:       1,
+								borderLeft: `1px solid ${theme.palette.divider}`,
+								textAlign:  'center'
+							}}>
+								{term.courses.map( ( course, index ) =>
+									<Tooltip title={course.courseTitle}>
+										<div key={index}>{course.coursePrefix} {course.courseNum}</div>
+									</Tooltip> )}
+							</div> )}
 						</div>
 					</ListItemText>
 					<ListItemSecondaryAction>
@@ -88,8 +81,24 @@ export default function ScheduleList() {
 						if ( !name || name in store.schedules ) {
 							dispatch( displayWarning( 'Name is duplicate or empty' ) );
 						} else {
-							dispatch( createSchedule( name ) );
+							// TODO: request term ids
+							const res = [ { id: 4040, name: 'Spring 2019' },
+								{ id: 4060, name: 'Summer 2019' },
+								{ id: 4100, name: 'Fall 2019' },
+								{ id: 4120, name: 'Winter 2020' } ];
+							// $.ajax( {
+							// 	type: 'GET',
+							// 	url:  '/availableTerms',
+							// 	success( res ) {
+							// 		console.log( res );
+							// 		if ( res.error ) {
+							// 			dispatch( displayWarning( res.error ) );
+							// 		} else {
+							dispatch( createSchedule( name, res ) );
 							navigate( `courses/${name}` );
+							// 		}
+							// 	}
+							// } );
 						}
 					}}>
 						<AddIcon/>

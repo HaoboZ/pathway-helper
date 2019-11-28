@@ -1,6 +1,7 @@
 import { RESET } from '../../redux/reducers';
 import { LOGOUT } from '../local/actions';
-import { ADDFILTER, CREATESCHEDULE, DELETESCHEDULE, REMOVEFILTER, SETTRANSCRIPT } from './actions';
+import { ADDCOURSE, ADDFILTER, REMOVECOURSE, REMOVEFILTER, SETMAJOR } from './scheduleActions';
+import { CREATESCHEDULE, DELETESCHEDULE, SETTRANSCRIPT } from './transcriptActions';
 
 
 export interface GlobalState {
@@ -18,25 +19,14 @@ export interface GlobalState {
 		[ name: string ]: {
 			major: string
 			filter: string[]
-			term1: {
-				coursePrefix: string
-				courseNum: string
-				courseTitle: string
-			}[]
-			term2: {
-				coursePrefix: string
-				courseNum: string
-				courseTitle: string
-			}[]
-			term3: {
-				coursePrefix: string
-				courseNum: string
-				courseTitle: string
-			}[]
-			term4: {
-				coursePrefix: string
-				courseNum: string
-				courseTitle: string
+			terms: {
+				id: number
+				name: string
+				courses: {
+					coursePrefix: string
+					courseNum: string
+					courseTitle: string
+				}[]
 			}[]
 		}
 	}
@@ -65,10 +55,10 @@ export const GlobalReducer = (
 			[ action.name ]: {
 				major:  state.transcript.major,
 				filter: [],
-				term1:  [],
-				term2:  [],
-				term3:  [],
-				term4:  []
+				terms:  action.terms.map( ( term: any ) => {
+					term.courses = [];
+					return term;
+				} )
 			}
 		};
 		return { ...state, schedules };
@@ -89,6 +79,41 @@ export const GlobalReducer = (
 		schedules[ action.schedule ].filter = schedules[ action.schedule ].filter
 			.filter( ( name ) => name !== action.name );
 		return { ...state, schedules };
+	}
+	case SETMAJOR: {
+		const schedules = { ...state.schedules };
+		schedules[ action.schedule ].major = action.name;
+		return { ...state, schedules };
+	}
+	case ADDCOURSE: {
+		const schedules = { ...state.schedules };
+		for ( const term of schedules[ action.schedule ].terms ) {
+			if ( term.id === action.term ) {
+				for ( const course of term.courses ) {
+					if ( course.courseNum === action.course.courseNum && course.coursePrefix === action.course.coursePrefix )
+						return state;
+				}
+				term.courses = [ ...term.courses, action.course ];
+			}
+		}
+		return { ...state, schedules };
+	}
+	case REMOVECOURSE: {
+		const schedules = { ...state.schedules };
+		for ( const term of schedules[ action.schedule ].terms ) {
+			if ( term.id === action.term ) {
+				for ( let i = 0; i < term.courses.length; ++i ) {
+					if ( term.courses[ i ].courseNum === action.course.courseNum && term.courses[ i ].coursePrefix === action.course.coursePrefix ) {
+						term.courses = [
+							...term.courses.slice( 0, i ),
+							...term.courses.slice( i + 1 )
+						];
+						return { ...state, schedules };
+					}
+				}
+			}
+		}
+		return state;
 	}
 	}
 	return state;

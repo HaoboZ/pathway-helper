@@ -1,31 +1,35 @@
+import { Button } from '@material-ui/core';
 import { RouteComponentProps } from '@reach/router';
 import * as React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { StoreState } from '../../redux/store';
-import { displayWarning } from '../../store/local/actions';
+import Category from './category';
 import Filters from './filters';
 
 
 export default function Courses( props: RouteComponentProps ) {
-	const dispatch = useDispatch(),
-	      store    = useSelector( ( store: StoreState ) => store.details );
+	const store = useSelector( ( store: StoreState ) => store.details );
 	
-	React.useEffect( () => {
-		if ( !store.transcript ) {
-			props.navigate( '/upload' ).then( () => {
-				dispatch( displayWarning( 'Transcript needs to be uploaded first' ) );
-			} );
-		}
-	}, [ props.path ] );
-	
-	if ( !store.transcript ) return null;
+	if ( !store.transcript ) {
+		return <div>You need to upload your transcript first. <Button variant='contained' onClick={() => {
+			props.navigate( '/upload' );
+		}}>Click me</Button> to go back to main page</div>;
+	}
 	
 	const scheduleName = props[ '*' ];
-	if ( !( scheduleName in store.schedules ) ) return <div>Something went wrong!</div>;
+	
+	React.useEffect( () => {
+		if ( !scheduleName ) {
+			props.navigate( '/upload' );
+		}
+	}, [ scheduleName ] );
+	
+	if ( !( scheduleName in store.schedules ) ) return <div>Schedule Does not Exist</div>;
 	const schedule = store.schedules[ props[ '*' ] ];
 	
 	return <div>
+		<Category scheduleName={scheduleName} schedule={schedule}/>
 		<Filters scheduleName={scheduleName} schedule={schedule}/>
 	</div>;
 }

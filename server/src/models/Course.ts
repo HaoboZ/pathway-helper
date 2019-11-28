@@ -41,7 +41,7 @@ export class Course extends sequelize.Model {
 						let departments = body.results;
 						console.log( departments );
 						for ( let t in terms ) {
-							console.log( terms[ t ].term );
+							console.log( terms[ t ].id );
 							for ( let d in departments ) {
 								// console.log(departments[d].value);
 								let form = new FormData();
@@ -49,7 +49,7 @@ export class Course extends sequelize.Model {
 								form.append( 'dept', departments[ d ].value );
 								//without sleeping this was causing timeouts and other weird errors because of how many requests made to courseavail at once
 								await sleep( 5 );
-								form.submit( `https://www.scu.edu/apps/ws/courseavail/search/${terms[ t ].term}/ugrad`, function ( err, res ) {
+								form.submit( `https://www.scu.edu/apps/ws/courseavail/search/${terms[ t ].id}/ugrad`, function ( err, res ) {
 									if ( err ) {
 										console.log( err );
 									}

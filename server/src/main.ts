@@ -38,7 +38,6 @@ if ( process.env.USES_DB === 'true' ) {
 	//load routes and middleware + db connections
 	generateDatabaseHandlers( app );
 	generateCourseRequestHandlers( app );
-	
 } else {
 	console.warn( 'No database setup, some functionality is disabled' );
 }

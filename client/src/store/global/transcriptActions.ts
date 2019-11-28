@@ -9,10 +9,11 @@ export function setTranscript( transcript ) {
 
 export const CREATESCHEDULE = 'createSchedule';
 
-export function createSchedule( name: string ) {
+export function createSchedule( name: string, terms: { id: number, name: string }[] ) {
 	return {
 		type: CREATESCHEDULE,
-		name
+		name,
+		terms
 	};
 }
 
@@ -21,26 +22,6 @@ export const DELETESCHEDULE = 'deleteSchedule';
 export function deleteSchedule( name: string ) {
 	return {
 		type: DELETESCHEDULE,
-		name
-	};
-}
-
-export const ADDFILTER = 'addFilter';
-
-export function addFilter( schedule, name ) {
-	return {
-		type: ADDFILTER,
-		schedule,
-		name
-	};
-}
-
-export const REMOVEFILTER = 'removeFilter';
-
-export function removeFilter( schedule, name ) {
-	return {
-		type: REMOVEFILTER,
-		schedule,
 		name
 	};
 }

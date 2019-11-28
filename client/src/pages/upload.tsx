@@ -5,7 +5,7 @@ import * as React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 
-import { setTranscript } from '../store/global/actions';
+import { setTranscript } from '../store/global/transcriptActions';
 import { displayWarning } from '../store/local/actions';
 import Transcript from '../transcriptParser/Transcript';
 

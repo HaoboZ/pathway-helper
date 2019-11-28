@@ -2,7 +2,7 @@ import ChipInput from 'material-ui-chip-input';
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 
-import { addFilter, removeFilter } from '../../store/global/actions';
+import { addFilter, removeFilter } from '../../store/global/scheduleActions';
 
 
 export default function Filters( { scheduleName, schedule } ) {

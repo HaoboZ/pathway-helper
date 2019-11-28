@@ -13,21 +13,20 @@ function checkInput( str ) {
 
 export default function Login( props: RouteComponentProps ) {
 	const dispatch = useDispatch(),
-	      store    = useSelector( ( store: StoreState ) => store.main );
+	      store    = useSelector( ( store: StoreState ) => ( {
+		      authenticated: store.main.authenticated,
+		      transcript:    store.details.transcript
+	      } ) );
 	
 	const usernameFieldRef        = React.useRef( null ),
 	      passwordFieldRef        = React.useRef( null ),
 	      passwordConfirmFieldRef = React.useRef( null );
 	
-	React.useEffect( () => {
-		if ( store.authenticated ) {
-			props.navigate( '/upload' ).then( () => {
-				dispatch( displayWarning( 'You are already logged in, you must log out first to create a new account.' ) );
-			} );
-		}
-	}, [ props.path ] );
-	
-	if ( store.authenticated ) return null;
+	if ( store.authenticated ) {
+		return <div>You are already authenticated. <Button variant='contained' onClick={() => {
+			props.navigate( store.transcript ? '/' : '/upload' );
+		}}>Click me</Button> to go back to main page</div>;
+	}
 	
 	return <div style={{
 		display:       'flex',
