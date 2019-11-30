@@ -1,6 +1,8 @@
 import * as sequelize from 'sequelize';
 
 
+export let database;
+
 require( 'dotenv' ).config();
 if ( process.env.USES_DB === undefined ) {
 	console.warn( '.env file is not set up, assuming no db used' );
@@ -8,6 +10,5 @@ if ( process.env.USES_DB === undefined ) {
 	process.env.USES_DB = 'false';
 } else if ( process.env.USES_DB === 'false' ) {
 	console.warn( 'no database set up, cannot use a database' );
-	process.exit( 1 );
-}
-export let database = new sequelize.Sequelize( 'postgres://' + process.env.DB_USERNAME + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_DBNAME, { logging: false } );
+} else
+	database = new sequelize.Sequelize( 'postgres://' + process.env.DB_USERNAME + ':' + process.env.DB_PASS + '@' + process.env.DB_HOST + ':' + process.env.DB_PORT + '/' + process.env.DB_DBNAME, { logging: false } );

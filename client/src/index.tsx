@@ -35,7 +35,7 @@ export default function Index() {
 		<CssBaseline/>
 		<Titlebar/>
 		<Container style={{ overflowY: 'scroll' }}>
-			<Router style={{ height: '100%' }}>
+			<Router style={{ height: '100%', padding: 10 }}>
 				<Details path='/'/>
 				<Login path='login'/>
 				<SignUp path='signUp'/>

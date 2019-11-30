@@ -58,12 +58,13 @@ export class User extends sequelize.Model {
 	}
 }
 
-User.init( {
-	// @ts-ignore
-	username:       { type: sequelize.Sequelize.STRING, unique: true },
-	// @ts-ignore
-	password:       sequelize.Sequelize.STRING,
-	// @ts-ignore
-	transcriptData: sequelize.Sequelize.JSONB//will break non postgres builds (this makes it fast to parse after read)
-}, { sequelize: database, modelName: 'pathwayuser', timestamps: true } );
+if ( process.env.USES_DB === 'true' )
+	User.init( {
+		// @ts-ignore
+		username:       { type: sequelize.Sequelize.STRING, unique: true },
+		// @ts-ignore
+		password:       sequelize.Sequelize.STRING,
+		// @ts-ignore
+		transcriptData: sequelize.Sequelize.JSONB//will break non postgres builds (this makes it fast to parse after read)
+	}, { sequelize: database, modelName: 'pathwayuser', timestamps: true } );
 

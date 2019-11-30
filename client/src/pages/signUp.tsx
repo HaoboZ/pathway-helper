@@ -1,5 +1,5 @@
 import { Button, TextField } from '@material-ui/core';
-import { RouteComponentProps } from '@reach/router';
+import { Link, RouteComponentProps } from '@reach/router';
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -23,9 +23,7 @@ export default function Login( props: RouteComponentProps ) {
 	      passwordConfirmFieldRef = React.useRef( null );
 	
 	if ( store.authenticated ) {
-		return <div>You are already authenticated. <Button variant='contained' onClick={() => {
-			props.navigate( store.transcript ? '/' : '/upload' );
-		}}>Click me</Button> to go back to main page</div>;
+		return <div>You are already authenticated. <Link to='/upload'>Click me</Link> to go back to main page</div>;
 	}
 	
 	return <div style={{

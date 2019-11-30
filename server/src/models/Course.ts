@@ -73,19 +73,20 @@ export class Course extends sequelize.Model {
 	}
 }
 
-Course.init( {
-	// @ts-ignore
-	number:      sequelize.Sequelize.INTEGER,// this is not unique over multiple terms
-	// @ts-ignore
-	term:        sequelize.Sequelize.INTEGER,
-	// @ts-ignore
-	subject:     sequelize.Sequelize.STRING,
-	// @ts-ignore
-	catalog_nbr: sequelize.Sequelize.STRING,
-	// @ts-ignore
-	class_descr: sequelize.Sequelize.STRING
-	
-}, { sequelize: database, modelName: 'courses', timestamps: true } );
+if ( process.env.USES_DB === 'true' )
+	Course.init( {
+		// @ts-ignore
+		number:      sequelize.Sequelize.INTEGER,// this is not unique over multiple terms
+		// @ts-ignore
+		term:        sequelize.Sequelize.INTEGER,
+		// @ts-ignore
+		subject:     sequelize.Sequelize.STRING,
+		// @ts-ignore
+		catalog_nbr: sequelize.Sequelize.STRING,
+		// @ts-ignore
+		class_descr: sequelize.Sequelize.STRING
+		
+	}, { sequelize: database, modelName: 'courses', timestamps: true } );
 
 //helpers
 function getJSONResponse( res, cb ) {
