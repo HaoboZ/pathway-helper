@@ -4,6 +4,7 @@ import {
 	ListItem,
 	ListItemSecondaryAction,
 	ListItemText,
+	ListSubheader,
 	Snackbar,
 	SnackbarContent,
 	Typography
@@ -47,13 +48,16 @@ export default function CourseList( { schedule, selectedTerm, filter, setSelecte
 	if ( !courses ) return null;
 	
 	return <>
-		Course List
-		<List style={{
-			overflow:        'auto',
-			maxHeight:       600,
-			backgroundColor: theme.palette.background.paper,
-			marginRight:     10
-		}}>
+		<List
+			subheader={<ListSubheader style={{ backgroundColor: theme.palette.background.paper }}>
+				Course List
+			</ListSubheader>}
+			style={{
+				overflow:        'auto',
+				maxHeight:       600,
+				backgroundColor: theme.palette.background.paper,
+				marginRight:     10
+			}}>
 			{courses.filter( ( course ) => {
 				if ( removed[ course.number ] ) return false;
 				for ( let taken of store.transcript.courses ) {
