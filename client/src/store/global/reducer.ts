@@ -1,7 +1,7 @@
 import { RESET } from '../../redux/reducers';
-import { LOGOUT } from '../local/actions';
+import { LOGIN, LOGOUT } from '../local/actions';
 import { ADDCOURSE, REMOVECOURSE, SETMAJOR } from './scheduleActions';
-import { CREATESCHEDULE, DELETESCHEDULE, SETTRANSCRIPT } from './transcriptActions';
+import { CREATESCHEDULE, DELETESCHEDULE, SETALL, SETTRANSCRIPT } from './transcriptActions';
 
 
 export interface GlobalState {
@@ -30,12 +30,32 @@ export interface GlobalState {
 			}[]
 		}
 	}
+	authenticated: boolean
 }
 
 const initState: GlobalState = {
-	transcript: null,
-	schedules:  {}
+	transcript:    null,
+	schedules:     {},
+	authenticated: false
 };
+
+function saveData( state ) {
+	if ( state.authenticated ) {
+		$.ajax( {
+			type:        'POST',
+			url:         '/storeUserData',
+			dataType:    'json',
+			contentType: 'application/json',
+			data:        JSON.stringify( state ),
+			success( r ) {
+				if ( r.error ) {
+					console.log( r );
+				}
+			}
+		} );
+	}
+	return state;
+}
 
 export const GlobalReducer = (
 	state = initState,
@@ -43,10 +63,17 @@ export const GlobalReducer = (
 ) => {
 	switch ( action.type ) {
 	case RESET:
+	case LOGIN:
+		return { ...state, authenticated: action.authenticated };
 	case LOGOUT:
 		return initState;
+	case SETALL:
+		let { transcript, schedules } = state;
+		if ( 'transcript' in action.data ) transcript = action.data.transcript;
+		if ( 'schedules' in action.data ) schedules = action.data.schedules;
+		return { transcript, schedules };
 	case SETTRANSCRIPT:
-		return { ...state, transcript: action.transcript };
+		return saveData( { ...state, transcript: action.transcript } );
 	case CREATESCHEDULE: {
 		if ( !action.name || action.name in state.schedules ) return state;
 		
@@ -61,17 +88,17 @@ export const GlobalReducer = (
 				} )
 			}
 		};
-		return { ...state, schedules };
+		return saveData( { ...state, schedules } );
 	}
 	case DELETESCHEDULE: {
 		const schedules = { ...state.schedules };
 		delete schedules[ action.name ];
-		return { ...state, schedules };
+		return saveData( { ...state, schedules } );
 	}
 	case SETMAJOR: {
 		const schedules = { ...state.schedules };
 		schedules[ action.schedule ].major = action.name;
-		return { ...state, schedules };
+		return saveData( { ...state, schedules } );
 	}
 	case ADDCOURSE: {
 		const schedules = { ...state.schedules };
@@ -84,7 +111,7 @@ export const GlobalReducer = (
 				term.courses = [ ...term.courses, action.course ];
 			}
 		}
-		return { ...state, schedules };
+		return saveData( { ...state, schedules } );
 	}
 	case REMOVECOURSE: {
 		const schedules = { ...state.schedules };
@@ -96,7 +123,7 @@ export const GlobalReducer = (
 							...term.courses.slice( 0, i ),
 							...term.courses.slice( i + 1 )
 						];
-						return { ...state, schedules };
+						return saveData( { ...state, schedules } );
 					}
 				}
 			}

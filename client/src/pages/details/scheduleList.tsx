@@ -33,7 +33,7 @@ export default function ScheduleList() {
 		margin: 30
 	}}>
 		<List>
-			{Object.keys( store.schedules ).map( ( name, index ) => <div key={index}>
+			{Object.keys( store.schedules ).map( ( name, i ) => <div key={i}>
 				<ListItem button onClick={() => {
 					navigate( `courses/${name}` );
 				}}>
@@ -52,9 +52,9 @@ export default function ScheduleList() {
 								borderLeft: `1px solid ${theme.palette.divider}`,
 								textAlign:  'center'
 							}}>
-								{term.courses.map( ( course, index ) =>
-									<Tooltip title={course.courseTitle}>
-										<div key={index}>{course.courseId}: {course.coursePrefix} {course.courseNum}</div>
+								{term.courses.map( ( course, i ) =>
+									<Tooltip key={i} title={course.courseTitle}>
+										<div>{course.courseId}: {course.coursePrefix} {course.courseNum}</div>
 									</Tooltip> )}
 							</div> )}
 						</div>

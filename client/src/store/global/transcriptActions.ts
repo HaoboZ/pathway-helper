@@ -1,3 +1,13 @@
+export const SETALL = 'setAll';
+
+export function setAll( data ) {
+	return {
+		type: SETALL,
+		data
+	};
+}
+
+
 export const SETTRANSCRIPT = 'setTranscript';
 
 export function setTranscript( transcript ) {

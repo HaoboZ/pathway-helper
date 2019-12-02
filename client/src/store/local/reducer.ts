@@ -9,16 +9,14 @@ export interface LocalState {
 	warning: string
 	username: string
 	authenticated: boolean
-	obtainedUserData: boolean
 }
 
 const initState: LocalState = {
-	theme:            'light',
-	version:          config.version,
-	warning:          '',
-	username:         undefined,
-	authenticated:    false,
-	obtainedUserData: false
+	theme:         'light',
+	version:       config.version,
+	warning:       '',
+	username:      undefined,
+	authenticated: false
 };
 
 export const LocalReducer = (
@@ -33,16 +31,14 @@ export const LocalReducer = (
 	case LOGIN:
 		return {
 			...state,
-			username:         action.username,
-			authenticated:    action.authenticated,
-			obtainedUserData: true
+			username:      action.username,
+			authenticated: action.authenticated
 		};
 	case LOGOUT:
 		return {
 			...state,
-			username:         undefined,
-			authenticated:    false,
-			obtainedUserData: false
+			username:      undefined,
+			authenticated: false
 		};
 	case DISPLAYWARNING:
 		return { ...state, warning: action.text };

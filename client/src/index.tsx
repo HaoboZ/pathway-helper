@@ -7,12 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import config from './config';
 import Courses from './pages/courses';
+import { category } from './pages/courses/category';
 import Details from './pages/details';
 import Login from './pages/login';
 import SignUp from './pages/signUp';
 import Upload from './pages/upload';
 import { RESET } from './redux/reducers';
 import { StoreState } from './redux/store';
+import { setAll } from './store/global/transcriptActions';
 import { displayWarning } from './store/local/actions';
 import Theme from './theme';
 import Titlebar from './titlebar';
@@ -28,7 +30,19 @@ export default function Index() {
 		if ( config.version !== store.version ) {
 			dispatch( { type: RESET } );
 		}
-		// TODO: if logged in, load in new state
+		
+		$.ajax( {
+			type: 'GET',
+			url:  '/getUserData',
+			success( res ) {
+				if ( res.error ) {
+					console.log( res );
+				} else {
+					console.log(res)
+					// dispatch( setAll( res ) );
+				}
+			}
+		} );
 	}, [] );
 	
 	return <Theme>

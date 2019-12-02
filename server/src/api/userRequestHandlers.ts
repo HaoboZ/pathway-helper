@@ -50,7 +50,7 @@ export default function generateDatabaseHandlers( app ) {
 		
 		if ( checkInput( username ) && checkInput( password ) ) {//maybe move this check into newUser function
 			//password is hashed by the newUser function
-			User.newUser( username, password, function ( user ) {
+			User.newUser( username, password, ( user ) => {
 				if ( user ) {
 					req.session.data = JSON.stringify( { 'username': username } );
 					res.send( { 'success': 'signed up and logged in', 'username': username } );
@@ -71,7 +71,7 @@ export default function generateDatabaseHandlers( app ) {
 		let username = req.body.username;
 		let password = req.body.password;
 		if ( checkInput( username ) && checkInput( password ) ) {//maybe move this check into login function
-			User.login( username, password, function ( user ) {
+			User.login( username, password, ( user ) => {
 				if ( user ) {
 					req.session.data = JSON.stringify( { 'username': username } );
 					res.send( { 'success': 'logged in' } );
@@ -93,7 +93,6 @@ export default function generateDatabaseHandlers( app ) {
 				} else {
 					res.send( { success: 'Data Updated' } );
 				}
-				
 			} );
 			
 		} else {
