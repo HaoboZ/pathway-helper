@@ -22,16 +22,16 @@ export class Course extends sequelize.Model {
 				}
 			} );
 	}
-	
+
 	static checkIfSyncNeeded( forceSync ) {
-		
+
 		this.findAndCountAll().then( res => {
 			if ( res.count == 0 || forceSync ) {
 				this.syncFromCourseAvail();
 			}
 		} );
 	}
-	
+
 	static async syncFromCourseAvail() {
 		this.destroy( { where: {}, truncate: true } ).then( ( res ) => {
 				console.log( res );
@@ -71,6 +71,23 @@ export class Course extends sequelize.Model {
 			}
 		);
 	}
+
+	getDescription(cb){
+		// @ts-ignore
+		https.get( 'https://www.scu.edu/apps/ws/courseavail/details/'+this.term + '/ugrad/' + this.number, ( res ) => {
+			getJSONResponse( res, ( body ) => {
+				if(body.results){
+					cb(body.results[0])
+				}
+				else{
+					cb(undefined)
+				}
+
+            })
+        })
+	}
+
+
 }
 
 if ( process.env.USES_DB === 'true' )
@@ -85,7 +102,7 @@ if ( process.env.USES_DB === 'true' )
 		catalog_nbr: sequelize.Sequelize.STRING,
 		// @ts-ignore
 		class_descr: sequelize.Sequelize.STRING
-		
+
 	}, { sequelize: database, modelName: 'courses', timestamps: true } );
 
 //helpers
