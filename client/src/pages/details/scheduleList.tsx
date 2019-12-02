@@ -54,7 +54,7 @@ export default function ScheduleList() {
 							}}>
 								{term.courses.map( ( course, index ) =>
 									<Tooltip title={course.courseTitle}>
-										<div key={index}>{course.coursePrefix} {course.courseNum}</div>
+										<div key={index}>{course.courseId}: {course.coursePrefix} {course.courseNum}</div>
 									</Tooltip> )}
 							</div> )}
 						</div>
@@ -81,24 +81,19 @@ export default function ScheduleList() {
 						if ( !name || name in store.schedules ) {
 							dispatch( displayWarning( 'Name is duplicate or empty' ) );
 						} else {
-							// TODO: request term ids
-							const res = [ { id: 4040, name: 'Spring 2019' },
-								{ id: 4060, name: 'Summer 2019' },
-								{ id: 4100, name: 'Fall 2019' },
-								{ id: 4120, name: 'Winter 2020' } ];
-							// $.ajax( {
-							// 	type: 'GET',
-							// 	url:  '/availableTerms',
-							// 	success( res ) {
-							// 		console.log( res );
-							// 		if ( res.error ) {
-							// 			dispatch( displayWarning( res.error ) );
-							// 		} else {
-							dispatch( createSchedule( name, res ) );
-							navigate( `courses/${name}` );
-							// 		}
-							// 	}
-							// } );
+							$.ajax( {
+								type: 'GET',
+								url:  '/availableTerms',
+								success( res ) {
+									console.log( res );
+									if ( res.error ) {
+										dispatch( displayWarning( res.error ) );
+									} else {
+										dispatch( createSchedule( name, res ) );
+										navigate( `courses/${name}` );
+									}
+								}
+							} );
 						}
 					}}>
 						<AddIcon/>

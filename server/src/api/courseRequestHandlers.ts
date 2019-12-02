@@ -10,8 +10,8 @@ import { Course } from '../models/Course';
 export default function generateCourseRequestHandlers( app ) {
 	app.get( '/classes', ( req, res ) => {//must specify term in get query parameter
 		if ( req.query.term !== undefined ) {
-			Course.findAll( { where: { term: req.query.term }, raw: true } ).then( ( results ) => {
-				console.log( results );
+			Course.findAll( { where: req.query, raw: true } ).then( ( results ) => {
+				// console.log( results );
 				res.send( { results } );
 			} );
 		} else {

@@ -45,11 +45,6 @@ export default function Titlebar() {
 						setMenuClick( null );
 					} );
 				}}>Transcript Details</MenuItem>
-				<MenuItem onClick={() => {
-					navigate( '/courses' ).then( () => {
-						setMenuClick( null );
-					} );
-				}}>Add Courses</MenuItem>
 			</Menu>
 			<Typography
 				variant='h6'

@@ -109,7 +109,6 @@ export default function generateDatabaseHandlers( app ) {
 				} else {
 					res.send( {} );
 				}
-				
 			} );
 		} else {
 			res.send( {} );

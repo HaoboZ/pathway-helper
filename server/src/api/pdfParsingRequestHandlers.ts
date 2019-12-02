@@ -30,7 +30,7 @@ let options = {
 };
 
 export default function generatePDFHandlers( app ) {
-	app.use( fileUpload( {
+	app.use( '/parsePDFText', fileUpload( {
 		useTempFiles: false,
 		debug:        true
 	} ) );

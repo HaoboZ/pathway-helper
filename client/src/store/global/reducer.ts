@@ -1,6 +1,6 @@
 import { RESET } from '../../redux/reducers';
 import { LOGOUT } from '../local/actions';
-import { ADDCOURSE, ADDFILTER, REMOVECOURSE, REMOVEFILTER, SETMAJOR } from './scheduleActions';
+import { ADDCOURSE, REMOVECOURSE, SETMAJOR } from './scheduleActions';
 import { CREATESCHEDULE, DELETESCHEDULE, SETTRANSCRIPT } from './transcriptActions';
 
 
@@ -18,11 +18,11 @@ export interface GlobalState {
 	schedules: {
 		[ name: string ]: {
 			major: string
-			filter: string[]
 			terms: {
 				id: number
 				name: string
 				courses: {
+					courseId: string
 					coursePrefix: string
 					courseNum: string
 					courseTitle: string
@@ -68,18 +68,6 @@ export const GlobalReducer = (
 		delete schedules[ action.name ];
 		return { ...state, schedules };
 	}
-	case ADDFILTER: {
-		const schedules = { ...state.schedules };
-		schedules[ action.schedule ].filter = schedules[ action.schedule ].filter
-			.concat( action.name );
-		return { ...state, schedules };
-	}
-	case REMOVEFILTER: {
-		const schedules = { ...state.schedules };
-		schedules[ action.schedule ].filter = schedules[ action.schedule ].filter
-			.filter( ( name ) => name !== action.name );
-		return { ...state, schedules };
-	}
 	case SETMAJOR: {
 		const schedules = { ...state.schedules };
 		schedules[ action.schedule ].major = action.name;
@@ -90,7 +78,7 @@ export const GlobalReducer = (
 		for ( const term of schedules[ action.schedule ].terms ) {
 			if ( term.id === action.term ) {
 				for ( const course of term.courses ) {
-					if ( course.courseNum === action.course.courseNum && course.coursePrefix === action.course.coursePrefix )
+					if ( course.courseId === action.course.courseId )
 						return state;
 				}
 				term.courses = [ ...term.courses, action.course ];
@@ -103,7 +91,7 @@ export const GlobalReducer = (
 		for ( const term of schedules[ action.schedule ].terms ) {
 			if ( term.id === action.term ) {
 				for ( let i = 0; i < term.courses.length; ++i ) {
-					if ( term.courses[ i ].courseNum === action.course.courseNum && term.courses[ i ].coursePrefix === action.course.coursePrefix ) {
+					if ( term.courses[ i ].courseId === action.course ) {
 						term.courses = [
 							...term.courses.slice( 0, i ),
 							...term.courses.slice( i + 1 )
