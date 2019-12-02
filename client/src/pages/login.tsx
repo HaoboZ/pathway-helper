@@ -22,7 +22,8 @@ export default function Login( props: RouteComponentProps ) {
 	let passwordFieldRef = React.useRef( null );
 	
 	if ( store.authenticated ) {
-		return <div>You are already authenticated. <Link to={store.transcript ? '/' : '/upload'}>Click me</Link> to go back to main page</div>;
+		return <div>You are already authenticated. <Link to={store.transcript ? '/' : '/upload'}>Click me</Link> to go
+			back to main page</div>;
 	}
 	
 	return <div style={{
@@ -66,7 +67,7 @@ export default function Login( props: RouteComponentProps ) {
 							dispatch( displayWarning( r.error ) );
 						} else {
 							dispatch( login( true, r.username ) );
-							props.navigate( '/upload' );
+							props.navigate( '/' );
 						}
 					}
 				} );

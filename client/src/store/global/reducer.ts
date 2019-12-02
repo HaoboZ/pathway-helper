@@ -46,7 +46,7 @@ function saveData( state ) {
 			url:         '/storeUserData',
 			dataType:    'json',
 			contentType: 'application/json',
-			data:        JSON.stringify( state ),
+			data:        JSON.stringify( { data: state } ),
 			success( r ) {
 				if ( r.error ) {
 					console.log( r );
@@ -71,7 +71,8 @@ export const GlobalReducer = (
 		let { transcript, schedules } = state;
 		if ( 'transcript' in action.data ) transcript = action.data.transcript;
 		if ( 'schedules' in action.data ) schedules = action.data.schedules;
-		return { transcript, schedules };
+		console.log(action.data)
+		return { ...state, transcript, schedules };
 	case SETTRANSCRIPT:
 		return saveData( { ...state, transcript: action.transcript } );
 	case CREATESCHEDULE: {

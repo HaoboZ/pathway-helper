@@ -31,19 +31,36 @@ export default function Index() {
 			dispatch( { type: RESET } );
 		}
 		
-		$.ajax( {
-			type: 'GET',
-			url:  '/getUserData',
-			success( res ) {
-				if ( res.error ) {
-					console.log( res );
-				} else {
-					console.log(res)
-					// dispatch( setAll( res ) );
+		if ( store.authenticated ) {
+			$.ajax( {
+				type: 'GET',
+				url:  '/getUserData',
+				success( res ) {
+					if ( res.error ) {
+						console.log( res );
+					} else {
+						dispatch( setAll( res.data ) );
+					}
 				}
-			}
-		} );
+			} );
+		}
 	}, [] );
+	
+	React.useEffect( () => {
+		if ( store.authenticated ) {
+			$.ajax( {
+				type: 'GET',
+				url:  '/getUserData',
+				success( res ) {
+					if ( res.error ) {
+						console.log( res );
+					} else {
+						dispatch( setAll( res.data ) );
+					}
+				}
+			} );
+		}
+	}, [ store.authenticated ] );
 	
 	return <Theme>
 		<CssBaseline/>

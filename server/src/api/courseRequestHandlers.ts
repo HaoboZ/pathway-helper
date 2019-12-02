@@ -18,20 +18,19 @@ export default function generateCourseRequestHandlers( app ) {
 			res.send( {} );
 		}
 	} );
-	app.get('/courseDescription',(req,res) => {
-		Course.findOne({where:req.query}).then((course) => {
-			if(course){
-				course.getDescription((description)=>{
-					res.send({description})
-				})
+	app.get( '/courseDescription', ( req, res ) => {
+		Course.findOne( { where: req.query } ).then( ( course ) => {
+			if ( course ) {
+				course.getDescription( ( description ) => {
+					res.send( { description } );
+				} );
+			} else {
+				res.send( { 'error': 'no courses found' } );
 			}
-			else{
-				res.send({"error":"no courses found"})
-			}
-
-
-		})
-	});
+			
+			
+		} );
+	} );
 	app.get( '/getCurrentTerm', ( req, res ) => {
 		//this is a temporary hardcoded solution
 		res.send( { id: 4100, name: 'Fall 2019' } );
@@ -39,5 +38,5 @@ export default function generateCourseRequestHandlers( app ) {
 	app.get( '/availableTerms', ( req, res ) => {
 		res.send( terms );
 	} );
-
+	
 }

@@ -22,16 +22,16 @@ export class Course extends sequelize.Model {
 				}
 			} );
 	}
-
+	
 	static checkIfSyncNeeded( forceSync ) {
-
+		
 		this.findAndCountAll().then( res => {
 			if ( res.count == 0 || forceSync ) {
 				this.syncFromCourseAvail();
 			}
 		} );
 	}
-
+	
 	static async syncFromCourseAvail() {
 		this.destroy( { where: {}, truncate: true } ).then( ( res ) => {
 				console.log( res );
@@ -49,7 +49,7 @@ export class Course extends sequelize.Model {
 								form.append( 'dept', departments[ d ].value );
 								//without sleeping this was causing timeouts and other weird errors because of how many requests made to courseavail at once
 								await sleep( 5 );
-								form.submit( `https://www.scu.edu/apps/ws/courseavail/search/${terms[ t ].id}/ugrad`, function ( err, res ) {
+								form.submit( `https://www.scu.edu/apps/ws/courseavail/search/${terms[ t ].id}`, function ( err, res ) {
 									if ( err ) {
 										console.log( err );
 									}
@@ -71,23 +71,21 @@ export class Course extends sequelize.Model {
 			}
 		);
 	}
-
-	getDescription(cb){
+	
+	getDescription( cb ) {
 		// @ts-ignore
-		https.get( 'https://www.scu.edu/apps/ws/courseavail/details/'+this.term + '/ugrad/' + this.number, ( res ) => {
+		https.get( 'https://www.scu.edu/apps/ws/courseavail/details/' + this.term + '/' + this.number, ( res ) => {
 			getJSONResponse( res, ( body ) => {
-				if(body.results){
-					cb(body.results[0])
+				if ( body.results ) {
+					cb( body.results[ 0 ] );
+				} else {
+					cb( undefined );
 				}
-				else{
-					cb(undefined)
-				}
-
-            })
-        })
+				
+			} );
+		} );
 	}
-
-
+	
 }
 
 if ( process.env.USES_DB === 'true' )
@@ -102,7 +100,6 @@ if ( process.env.USES_DB === 'true' )
 		catalog_nbr: sequelize.Sequelize.STRING,
 		// @ts-ignore
 		class_descr: sequelize.Sequelize.STRING
-
 	}, { sequelize: database, modelName: 'courses', timestamps: true } );
 
 //helpers
