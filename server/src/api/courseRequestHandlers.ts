@@ -27,8 +27,6 @@ export default function generateCourseRequestHandlers( app ) {
 			} else {
 				res.send( { 'error': 'no courses found' } );
 			}
-			
-			
 		} );
 	} );
 	app.get( '/getCurrentTerm', ( req, res ) => {

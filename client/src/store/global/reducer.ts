@@ -71,7 +71,6 @@ export const GlobalReducer = (
 		let { transcript, schedules } = state;
 		if ( 'transcript' in action.data ) transcript = action.data.transcript;
 		if ( 'schedules' in action.data ) schedules = action.data.schedules;
-		console.log(action.data)
 		return { ...state, transcript, schedules };
 	case SETTRANSCRIPT:
 		return saveData( { ...state, transcript: action.transcript } );
