@@ -6,13 +6,15 @@ import { setMajor } from '../../store/global/scheduleActions';
 
 
 export const category = {
-	'Computer Science and Engineering': 'COEN'
+	'Computer Science and Engineering': 'COEN',
+	'Computer Science (Mathematics)':'CSCI'
+
 };
 // TODO: need to add more categories
 
 export default function Category( { scheduleName, schedule } ) {
 	const dispatch = useDispatch();
-	
+
 	return <div>
 		Major Focus: <Select
 		value={schedule.major}

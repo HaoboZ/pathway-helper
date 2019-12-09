@@ -9,9 +9,9 @@ import { removeCourse } from '../../store/global/scheduleActions';
 
 export default function SelectedCourses( { scheduleName, schedule, selectedTerm, setSelectedCourse } ) {
 	const dispatch = useDispatch();
-	
+
 	const theme = useTheme();
-	
+
 	for ( const term of schedule.terms ) {
 		if ( term.id === selectedTerm ) {
 			if ( term.courses.length )
@@ -30,8 +30,8 @@ export default function SelectedCourses( { scheduleName, schedule, selectedTerm,
 							setSelectedCourse( ( selectedCourse ) => selectedCourse === course ? undefined : course );
 						}}>
 							<ListItemText
-								primary={course.courseId}
-								secondary={`${course.coursePrefix} ${course.courseNum} - ${course.courseTitle}`}/>
+								primary={`${course.coursePrefix} ${course.courseNum} - ${course.courseTitle}`}
+								secondary={course.courseId}/>
 							<ListItemSecondaryAction>
 								<IconButton edge='end' onClick={() => {
 									console.log( scheduleName );
@@ -45,6 +45,6 @@ export default function SelectedCourses( { scheduleName, schedule, selectedTerm,
 				return null;
 		}
 	}
-	
+
 	return null;
 }

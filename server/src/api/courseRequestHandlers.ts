@@ -1,8 +1,10 @@
 //hardcoded terms (this should probably be set dynamically)
-export let terms = [ { id: 4040, name: 'Spring 2019' },
+export let terms = [
+	{ id: 4120, name: 'Winter 2020' },
+	{ id: 4040, name: 'Spring 2019' },
 	{ id: 4060, name: 'Summer 2019' },
 	{ id: 4100, name: 'Fall 2019' },
-	{ id: 4120, name: 'Winter 2020' } ];
+	 ];
 
 import { Course } from '../models/Course';
 
@@ -36,5 +38,5 @@ export default function generateCourseRequestHandlers( app ) {
 	app.get( '/availableTerms', ( req, res ) => {
 		res.send( terms );
 	} );
-	
+
 }

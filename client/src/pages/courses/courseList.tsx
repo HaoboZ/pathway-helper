@@ -20,13 +20,13 @@ import { category } from './category';
 
 export default function CourseList( { schedule, selectedTerm, filter, setSelectedCourse } ) {
 	const store = useSelector( ( store: StoreState ) => store.details );
-	
+
 	const theme = useTheme();
-	
+
 	const [ courses, setCourses ] = React.useState( [] );
 	const [ removed, setRemoved ] = React.useState( {} );
 	const [ undoRemove, setUndoRemove ] = React.useState( undefined );
-	
+
 	React.useEffect( () => {
 		$.ajax( {
 			type: 'GET',
@@ -44,9 +44,9 @@ export default function CourseList( { schedule, selectedTerm, filter, setSelecte
 			}
 		} );
 	}, [ selectedTerm, schedule.major ] );
-	
+
 	if ( !courses ) return null;
-	
+
 	return <>
 		<List
 			subheader={<ListSubheader style={{ backgroundColor: theme.palette.background.paper }}>
@@ -73,8 +73,8 @@ export default function CourseList( { schedule, selectedTerm, filter, setSelecte
 				setSelectedCourse( ( selectedCourse ) => selectedCourse === course ? undefined : course );
 			}}>
 				<ListItemText
-					primary={course.number}
-					secondary={`${course.subject} ${course.catalog_nbr} - ${course.class_descr}`}/>
+					primary={`${course.subject} ${course.catalog_nbr} - ${course.class_descr}`}
+					secondary={course.number}/>
 				<ListItemSecondaryAction>
 					<IconButton edge='end' onClick={() => {
 						setRemoved( ( removed ) => ( { ...removed, [ course.number ]: true } ) );
@@ -93,19 +93,21 @@ export default function CourseList( { schedule, selectedTerm, filter, setSelecte
 				style={{
 					backgroundColor: theme.palette.secondary.dark,
 					color:           theme.palette.common.white
+
 				}}
 				message={<Typography color='textPrimary' style={{
 					display:    'flex',
-					alignItems: 'center'
+					alignItems: 'center',
+					color:           theme.palette.common.white
 				}}>Undo Remove Course?</Typography>}
 				action={<>
-					<IconButton color='default' onClick={() => {
+					<IconButton color='inherit' onClick={() => {
 						setRemoved( ( removed ) => ( { ...removed, [ undoRemove ]: false } ) );
 						setUndoRemove( undefined );
 					}}>
 						<CheckIcon style={{ fontSize: 20 }}/>
 					</IconButton>
-					<IconButton color='default' onClick={() => {
+					<IconButton color='inherit' onClick={() => {
 						setUndoRemove( undefined );
 					}}>
 						<CloseIcon style={{ fontSize: 20 }}/>
